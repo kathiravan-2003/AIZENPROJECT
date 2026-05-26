@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Aizen Sosuke | Supreme Illusion</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&family=Poppins:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <style>
+    /* CSS same as your original code */
+    *{ margin:0; padding:0; box-sizing:border-box; scroll-behavior:smooth; }
+    body{ background:#05010d; color:white; overflow-x:hidden; font-family:'Poppins',sans-serif; }
+    ::placeholder{ color:#d8b4ff; opacity:0.7; }
+    ::-webkit-scrollbar{ width:10px; }
+    ::-webkit-scrollbar-thumb{ background:#8c3cff; border-radius:10px; }
+    .bg-particles{ position:fixed; width:100%; height:100%; z-index:-3; overflow:hidden; }
+    .particle{ position:absolute; width:4px; height:4px; border-radius:50%; background:#c58cff; box-shadow:0 0 15px #c58cff; animation:float 10s linear infinite; }
+    @keyframes float{ 0%{ transform:translateY(100vh) scale(0); opacity:0; } 30%{ opacity:1; } 100%{ transform:translateY(-120vh) scale(1.5); opacity:0; } }
+    .hero{ min-height:100vh; display:flex; justify-content:center; align-items:center; padding:50px; position:relative; }
+    .hero::before{ content:''; position:absolute; width:600px; height:600px; background:radial-gradient(circle,#7a00ff55,#00000000); filter:blur(100px); z-index:-1; }
+    .hero-container{ display:flex; align-items:center; justify-content:center; gap:80px; flex-wrap:wrap; }
+    .image-box{ position:relative; animation:floatImage 5s ease-in-out infinite; }
+    @keyframes floatImage{ 0%,100%{ transform:translateY(0px); } 50%{ transform:translateY(-15px); } }
+    .image-box img{ width:370px; border-radius:25px; border:2px solid #a855ff; box-shadow: 0 0 40px #8c3cff, 0 0 80px #8c3cff; }
+    .magic-ring{ position:absolute; inset:-25px; border:2px solid #a855ff88; border-radius:30px; animation:rotate 10s linear infinite; }
+    @keyframes rotate{ from{ transform:rotate(0deg); } to{ transform:rotate(360deg); } }
+    .content{ max-width:650px; }
+    .tag{ color:#c58cff; font-size:18px; letter-spacing:5px; margin-bottom:10px; text-transform:uppercase; }
+    .title{ font-size:85px; line-height:1; font-family:'Orbitron',sans-serif; text-shadow: 0 0 20px #8c3cff, 0 0 60px #8c3cff; }
+    .subtitle{ margin-top:20px; font-size:22px; color:#d6c4ff; line-height:1.7; }
+    .btn-group{ margin-top:35px; display:flex; gap:20px; flex-wrap:wrap; }
+    .btn{ padding:15px 35px; border:none; border-radius:50px; font-size:16px; cursor:pointer; transition:.4s; position:relative; overflow:hidden; font-weight:600; }
+    .btn-primary{ background:linear-gradient(45deg,#7b2cff,#d66bff); color:white; box-shadow:0 0 25px #8c3cff; }
+    .btn-primary:hover{ transform:translateY(-5px) scale(1.05); box-shadow:0 0 50px #a855ff; }
+    .btn-secondary{ background:transparent; color:#c58cff; border:2px solid #8c3cff; }
+    .btn-secondary:hover{ background:#8c3cff; color:white; transform:translateY(-5px); }
+    .section{ padding:100px 8%; position:relative; }
+    .section-title{ text-align:center; font-size:50px; margin-bottom:70px; font-family:'Orbitron',sans-serif; color:#d8b4ff; text-shadow:0 0 20px #8c3cff; }
+    .cards{ display:grid; grid-template-columns:repeat(auto-fit,minmax(420px,1fr)); gap:35px; }
+    .card{ background:rgba(255,255,255,0.05); backdrop-filter:blur(15px); border:1px solid rgba(255,255,255,0.1); border-radius:25px; padding:35px; transition:.4s; position:relative; overflow:hidden; }
+    .card:hover{ transform:translateY(-10px) scale(1.03); box-shadow:0 0 35px #8c3cff66; border-color:#a855ff; }
+    .card h2{ margin-bottom:20px; color:#d8b4ff; font-size:28px; }
+    .card p{ color:#d4d4d4; line-height:1.8; }
+    .powers{ display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:30px; }
+    .power-box{ padding:30px; border-radius:25px; background:rgba(255,255,255,0.04); border:1px solid #8c3cff55; position:relative; overflow:hidden; transition:.5s; }
+    .power-box:hover{ transform:translateY(-8px); box-shadow:0 0 30px #8c3cff77; }
+    .power-box h3{ color:#d8b4ff; margin-bottom:15px; font-size:28px; }
+    .power-box p{ color:#ddd; line-height:1.8; }
+    .quote{ margin-top:100px; text-align:center; padding:80px 20px; background:linear-gradient(135deg,#130021,#22003a); border-top:1px solid #8c3cff55; border-bottom:1px solid #8c3cff55; }
+    .quote h1{ font-size:40px; line-height:1.7; color:#e9d5ff; font-family:'Orbitron',sans-serif; text-shadow:0 0 20px #8c3cff; }
+    footer{ padding:40px; text-align:center; color:#aaa; font-size:15px; }
+    
+    /* Recruitment UI */
+    .recruit-box{ display:flex; justify-content:center; }
+    #joinForm{ width:100%; max-width:700px; display:flex; flex-direction:column; gap:20px; }
+    #joinForm input, #joinForm textarea{ width:100%; padding:22px 24px; border-radius:24px; border:1px solid rgba(200,100,255,0.35); background:linear-gradient(135deg, rgba(255,255,255,0.08), rgba(140,60,255,0.10)); color:#ffffff; font-size:18px; outline:none; backdrop-filter:blur(18px); }
+    #joinForm button{ padding:18px; border:none; border-radius:20px; background:linear-gradient(45deg,#7b2cff,#c84dff); color:white; font-size:18px; cursor:pointer; }
+    .application-card{ background:rgba(255,255,255,0.05); border:1px solid #8c3cff55; border-radius:25px; padding:30px; backdrop-filter:blur(15px); }
+    .approve-btn{ margin-top:20px; padding:12px 25px; border:none; border-radius:15px; background:#8c3cff; color:white; cursor:pointer; font-weight:bold; }
+    .reject-btn{ margin-top:20px; padding:12px 25px; border:none; border-radius:15px; background:linear-gradient(45deg,#ff2e63,#ff004c); color:white; cursor:pointer; font-weight:bold; }
+    .ultra-select{ width:100%; padding:22px; border-radius:22px; border:1px solid #b14dff88; background:#12001f; color:#f3d9ff; font-size:18px; font-weight:600; outline:none; }
+    .power-wrapper{ position:relative; width:100%; }
+    .power-arrows{ position:absolute; top:50%; right:16px; transform:translateY(-50%); display:flex; flex-direction:column; gap:2px; }
+    .arrow{ width:20px !important; height:18px !important; border:none; border-radius:5px; background:rgba(168,85,255,0.12); color:#d8b4ff; cursor:pointer; font-size:7px !important; }
+    #espadaTeam .card{ background:linear-gradient(135deg, rgba(255,255,255,0.05), rgba(140,60,255,0.08)); border:1px solid rgba(168,85,255,0.35); border-radius:28px; }
+    .espada-img{ width:100%; height:840px; object-fit:cover; display:block; border-bottom:2px solid rgba(168,85,255,0.35); }
+    @media(max-width:1000px){ .espada-img{ height:250px; } }
+  </style>
+</head>
+
+<body>
+  <div class="bg-particles"></div>
+  <section class="hero">
+    <div class="hero-container">
+      <div class="image-box">
+        <div class="magic-ring"></div>
+        <img src="AIZEN SOSUKE.jfif" alt="Aizen">
+      </div>
+      <div class="content">
+        <div class="tag">Soul Society's Greatest Manipulator</div>
+        <h1 class="title">AIZEN<br>SOSUKE</h1>
+        <p class="subtitle">The supreme mastermind of Bleach. Aizen is not just powerful — he controls perception itself.</p>
+        <div class="btn-group">
+          <button class="btn btn-primary" onclick="showMessage()">Kyoka Suigetsu</button>
+          <button class="btn btn-secondary" onclick="scrollToInfo()">Explore Powers</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="powers">
+    <h1 class="section-title">Ultimate Powers</h1>
+    <div class="powers">
+      <div class="power-box"><h3>Kyoka Suigetsu</h3><p>Complete Hypnosis.</p></div>
+      <div class="power-box"><h3>Hogyoku Evolution</h3><p>Surpassing limits.</p></div>
+      <div class="power-box"><h3>Monster Reiatsu</h3><p>Crushing pressure.</p></div>
+      <div class="power-box"><h3>Sword Mastery</h3><p>Elite swordsman.</p></div>
+    </div>
+  </section>
+
+  <section class="section"><h1 class="section-title">Official Espada</h1><div id="espadaTeam" class="cards"></div></section>
+
+  <section class="section" id="recruitment">
+    <h1 class="section-title">Join Aizen's Army</h1>
+    <div class="recruit-box">
+      <form id="joinForm">
+        <input type="text" id="name" placeholder="Enter Your Name" required>
+        <div class="power-wrapper">
+          <input type="number" id="power" min="1" max="100" value="1" required>
+          <div class="power-arrows">
+            <button type="button" class="arrow up">▲</button>
+            <button type="button" class="arrow down">▼</button>
+          </div>
+        </div>
+        <select id="role" class="ultra-select" required>
+          <option value="">✦ Choose Your Elite Role ✦</option>
+          <option>⚔️ Espada — Supreme Destruction Unit</option>
+          <option>🧠 Strategist — Mastermind Division</option>
+        </select>
+        <textarea id="reason" placeholder="Why should Aizen choose you?" required></textarea>
+        <button type="submit">Request Approval</button>
+      </form>
+    </div>
+  </section>
+
+  <section class="section">
+    <h1 class="section-title">Aizen Reviewing Applications</h1>
+    <div id="applications" class="cards"></div>
+  </section>
+
+  <section class="section">
+    <h1 class="section-title">Aizen's Elite Team</h1>
+    <div id="approvedTeam" class="cards"></div>
+  </section>
+
+  <script>
+    const form = document.getElementById("joinForm");
+    const applications = document.getElementById("applications");
+    const approvedTeam = document.getElementById("approvedTeam");
+
+    // Load saved members
+    function loadTeam() {
+      const saved = JSON.parse(localStorage.getItem("aizenTeam")) || [];
+      approvedTeam.innerHTML = "";
+      saved.forEach((member, index) => {
+        const teamCard = document.createElement("div");
+        teamCard.classList.add("card");
+        teamCard.innerHTML = `
+          <h2>${member.name}</h2>
+          <p>Role: ${member.role}</p>
+          <p>Power Level: ${member.power}</p>
+          <button class="reject-btn remove-member" data-index="${index}">Remove Member</button>
+        `;
+        approvedTeam.appendChild(teamCard);
+      });
+    }
+
+    // REMOVE BUTTON DELEGATION
+    approvedTeam.addEventListener("click", function(e) {
+      if (e.target.classList.contains("remove-member")) {
+        const index = e.target.getAttribute("data-index");
+        let saved = JSON.parse(localStorage.getItem("aizenTeam")) || [];
+        saved.splice(index, 1);
+        localStorage.setItem("aizenTeam", JSON.stringify(saved));
+        loadTeam();
+      }
+    });
+
+    form.addEventListener("submit", function(e) {
+      e.preventDefault();
+      const name = document.getElementById("name").value.trim();
+      const power = document.getElementById("power").value;
+      const role = document.getElementById("role").value;
+      const reason = document.getElementById("reason").value.trim();
+
+      const card = document.createElement("div");
+      card.classList.add("application-card");
+      card.innerHTML = `
+        <h2>${name}</h2>
+        <p><strong>Power:</strong> ${power}</p>
+        <p><strong>Role:</strong> ${role}</p>
+        <div class="button-group">
+          <button class="approve-btn">Approve</button>
+          <button class="reject-btn">Reject</button>
+        </div>
+      `;
+      applications.appendChild(card);
+
+      card.querySelector(".approve-btn").addEventListener("click", function() {
+        let teamData = JSON.parse(localStorage.getItem("aizenTeam")) || [];
+        teamData.push({ name, role, power });
+        localStorage.setItem("aizenTeam", JSON.stringify(teamData));
+        loadTeam();
+        card.remove();
+      });
+
+      card.querySelector(".reject-btn").addEventListener("click", () => card.remove());
+      form.reset();
+    });
+
+    loadTeam();
+    // ... (rest of your existing particle and arrow logic)
+  </script>
+</body>
+</html>

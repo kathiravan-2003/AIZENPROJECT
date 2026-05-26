@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+<meta charset="UTF-8">
+<title>DL Holder - Aizen Level</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+body {
+    background: #0d0d0d;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+/* WRAPPER */
+.wrapper {
+    display: flex;
+    border-radius: 12px;
+    overflow: hidden;
+
+}
+
+/* REAL CARD SIZE */
+.section {
+    width: 340px;
+    height: 210px;
+    padding: 15px;
+}
+
+/* FRONT */
+.front {
+    
+    background: linear-gradient(160deg, #000000, #0a0014, #140028);
+    color: #9d4edd;
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+
+    border-right: 2px dashed rgba(199,125,255,0.4);
+
+    /* 🔥 glow effect */
+    box-shadow: 
+        inset 0 0 25px rgba(180,0,255,0.2),
+        inset 0 0 5px rgba(255,255,255,0.05);
+}
+
+
+.front h1 {
+    font-size: 20px;
+    letter-spacing: 2px;
+}
+
+/* INSIDE */
+.inside {
+    
+    
+    background: linear-gradient(160deg, #0a0014, #140028, #1f0038);
+    color: #f2eaff;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-shadow: 
+        inset 0 0 20px rgba(180,0,255,0.25),
+        0 8px 25px rgba(0,0,0,0.6);
+}
+
+
+/* TOP */
+.top {
+    display: flex;
+    gap: 12px;
+}
+
+/* PHOTO */
+.photo {
+    width: 95px;
+    height: 115px;
+    border-radius: 6px;
+    overflow: hidden;
+    border: 1.5px solid #999;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+}
+.photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.govt {
+    font-size: 11px;
+    letter-spacing: 1px;
+    margin-top: -20px;
+    opacity: 0.8;
+    font-weight: 700;
+    text-align: left;      /* 👈 main fix */
+    width: 100%;
+
+    
+}
+/* DETAILS */
+.details {
+    flex: 1;
+    font-size: 12.5px;
+    line-height: 1.4;
+}
+.field {
+    margin: 4px 0;
+}
+.label {
+    font-weight: 700;
+    color: #9d4edd;
+}
+
+/* ADDRESS */
+.address {
+      font-size: 11px;
+    margin-top: 0px;
+    padding-top: 2px;
+    transform: translateY(-4px);  /* 👈 precise move up */
+    border-top: 1px dashed #ccc;
+}
+
+/* BARCODE */
+.barcode-box {
+    border-top: 1px solid #bbb;
+    padding-top: 2px;
+    margin-top: -3px;
+}
+
+svg {
+    width: 200px;
+    height: 40px;
+    display: block;
+    margin: 0 auto;
+     margin-bottom: 1px;  
+     transform: translateY(-6px);
+}
+
+.footer {
+    text-align: center;
+    font-size: 13px;
+    opacity: 0.6;
+     margin-bottom: 4px;
+    transform: translateY(-14px); 
+    color: #ffffff;
+}
+
+.photo {
+    transform: translateY(-7px);  /* 👈 mela move */
+}
+/* PRINT */
+@media print {
+    body {
+        background: none;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="wrapper">
+
+    <!-- FRONT -->
+    <div class="section front">
+        <h1>DRIVING LICENSE</h1>
+        <p class="govt">GOVERNMENT  OF JAPAN</p>
+    </div>
+
+    <!-- DETAILS SIDE -->
+    <div class="section inside">
+
+        <div class="top">
+
+            <!-- PHOTO -->
+            <div class="photo">
+                <img id="preview" src="AIZEN.jpg">
+            </div>
+
+            <!-- DETAILS -->
+            <div class="details">
+                <div class="field"><span class="label">Name:</span> SOSUKE AIZEN</div>
+                <div class="field"><span class="label">DL No:</span> AZ-0005-G13</div>
+                <div class="field"><span class="label">DOB:</span> 29/5/1500</div>
+                <div class="field"><span class="label">Blood:</span> SOSUKE  AIZEN+VE</div>
+                <div class="field"><span class="label">Phone:</span> 404-404-4040</div>
+            </div>
+
+        </div>
+
+        <!-- ADDRESS -->
+        <div class="address">
+            <b>Address:</b><br>
+            Japan : Soul Society
+        </div>
+
+        <!-- BARCODE -->
+        <div class="barcode-box">
+            <svg id="barcode"></svg>
+            <div class="footer">Drive Safe • Follow Rules</div>
+        </div>
+
+    </div>
+
+</div>
+
+<input type="file" id="upload" style="position:fixed; bottom:10px; left:10px;">
+
+<script src="https://cdn.jsdelivr.net/npm/jsbarcode/dist/JsBarcode.all.min.js"></script>
+
+<script>
+// PHOTO UPLOAD
+document.getElementById("upload").addEventListener("change", function(e){
+    const file = e.target.files[0];
+    const reader = new FileReader();
+    reader.onload = function(){
+        document.getElementById("preview").src = reader.result;
+    };
+    reader.readAsDataURL(file);
+});
+
+// PERFECT BARCODE
+JsBarcode("#barcode", "TN00XXXXXX", {
+    format: "CODE128",
+    width: 2,
+    height: 38,
+    displayValue: false,
+    margin: 0
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,1435 @@
+/* 🔥 1. Body setup */
+body {
+  margin: 0;
+  overflow: hidden;
+  height: 100vh;
+  width: 100vw; /* ✅ FIXED */
+}
+
+/* 🔥 2. Background */
+.background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-image: url("AIZEN.jpg"); /* 👈 image name */
+  background-size: cover;
+  background-position: center top;
+  background-repeat: no-repeat;
+  width: 100%;
+  height: 100vh;
+  z-index: -2;
+}
+
+/* 🔥 3. Overlay (🔥 ADD GLOW HERE) */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  
+  width: 100%;
+  height: 100vh;
+
+  /* ✅ NORMAL DARK + GLOW MIX */
+  background: radial-gradient(circle at center,
+    rgba(120, 0, 255, 0.3),
+    rgba(20, 0, 40, 0.8));
+
+  z-index: -1;
+}
+
+/* 🔥 4. Start screen */
+#startScreen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+
+  /* ✅ FIXED gradient */
+  background: linear-gradient(180deg, #0f001f 0%, #000000 100%);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* 🔥 5. Button (Glow added) */
+button {
+  padding: 15px 30px;
+  font-size: 18px;
+  cursor: pointer;
+  background: #9333ea;
+  color: white;
+  border: none;
+  border-radius: 8px;
+
+  /* 🔥 GLOW */
+  box-shadow:
+    0 0 10px #0c0c0c,
+    0 0 20px #040404,
+    0 0 40px #0b0b0b;
+}
+
+button:hover {
+  transform: scale(1.1);
+
+  box-shadow:
+    0 0 20px #090909,
+    0 0 40px #0a0a0a,
+    0 0 80px #070707;
+}
+
+/* 🔥 6. Content */
+.container {
+  text-align: center;
+  margin-top: 100px;
+  color: white;
+  padding-left: 155px;
+}
+
+/* 🔥 6.5 AIZEN TITLE GLOW 😈 */
+h1 {
+  font-size: 48px;
+
+ color: #a855f7;
+
+  animation: glowPulse 2s infinite alternate;
+}
+
+/* 🔥 7. Dialogue (UPGRADED GLOW) */
+.dialogue {
+  
+  font-size: 22px;
+  margin-bottom: 20px;
+
+  /* ⚪ front text */
+  color: #ffffff;
+
+  /* 🔵 SAME BLUE GLOW AS POWERS */
+  text-shadow:
+    0 0 5px #00eaff,
+    0 0 10px #00eaff,
+    0 0 20px #00c3ff,
+    0 0 40px #0099ff,
+    0 0 80px #0066ff;
+
+  animation: blueGlowPulse 2s infinite alternate;
+}
+
+
+
+/* 🔥 8. Powers (Glow added) */
+.powers span {
+  display: block;
+  margin: 8px;
+  color: #ffffff;
+
+  text-shadow:
+    0 0 5px #fff,
+    0 0 10px #060606,
+    0 0 20px #030303;
+}
+
+/* 🔥 9. Particle */
+.particle {
+  position: absolute;
+  width: 5px;
+  height: 5px;
+  background: white;
+  border-radius: 50%;
+  bottom: 0;
+}
+
+/* 🔥 10. Animation */
+@keyframes floatUp {
+  0% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-100vh);
+    opacity: 0;
+  }
+}
+
+/* 🔥 EXTRA GLOW ANIMATION */
+@keyframes glowPulse {
+  from {
+    text-shadow:
+      0 0 10px #000000,
+      0 0 20px #000000,
+      0 0 40px #000000;
+  }
+  to {
+    text-shadow:
+      0 0 20px #000000,
+      0 0 40px #000000,
+      0 0 80px #000000;
+  }
+}
+/* 🔥 DOMAIN BUTTON ULTRA AURA */
+
+.btn-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+/* 🌀 Rotating Energy */
+.btn-wrapper::before {
+  content: "";
+  position: absolute;
+  inset: -35px;
+  border-radius: 50%;
+  z-index: -2;
+
+  background: conic-gradient(
+    from 0deg,
+    #6a00ff,
+    #a855f7,
+    #e879f9,
+    #6a00ff
+  );
+
+  filter: blur(45px);
+  opacity: 0.8;
+
+  animation: rotateAura 5s linear infinite;
+}
+
+/* 🔮 Pulse Glow */
+.btn-wrapper::after {
+  content: "";
+  position: absolute;
+  inset: -20px;
+  border-radius: 20px;
+  z-index: -1;
+  background: radial-gradient(circle,
+    rgba(168, 85, 247, 1),
+    rgba(106, 0, 255, 0.4),
+    transparent 70%);
+
+  filter: blur(25px);
+
+  animation: pulseAura 1.5s infinite alternate;
+}
+
+@keyframes rotateAura {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes pulseAura {
+  from {
+    transform: scale(1);
+    opacity: 0.6;
+  }
+  to {
+    transform: scale(1.5);
+    opacity: 1;
+  }
+}
+/* ⚡ FLASH SCREEN */
+.flash {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+
+  background: radial-gradient(circle, white, transparent 70%);
+  opacity: 0;
+  pointer-events: none;
+  z-index: 999;
+
+  animation: flashEffect 0.6s ease-out;
+}
+
+@keyframes flashEffect {
+  0% { opacity: 1; }
+  100% { opacity: 0; }
+}
+/* ⚡ SCREEN SHAKE */
+.shake {
+  animation: screenShake 0.4s;
+}
+
+@keyframes screenShake {
+ 20% { transform: translate(-2px, 2px); }
+40% { transform: translate(2px, -2px); }
+60% { transform: translate(-2px, 2px); }
+80% { transform: translate(2px, -2px); }
+}
+/* 🔮 KYOKA SUIGETSU ILLUSION */
+body.illusion {
+  filter: blur(3px) contrast(120%);
+  transition: all 0.5s ease;
+}
+
+/* ⚡ REIATSU PRESSURE */
+body.reiatsu {
+  animation: pressure 1s infinite alternate;
+}
+
+@keyframes pressure {
+  0% { transform: scale(1); }
+  100% { transform: scale(1.01); }
+}
+
+/* 🌌 LIGHT FLICKER */
+.overlay {
+  animation: flicker 2s infinite;
+}
+
+@keyframes flicker {
+  0% { opacity: 1; }
+  50% { opacity: 0.85; }
+  100% { opacity: 1; }
+}
+/* 📳 SCREEN SHAKE */
+body.shake {
+  animation: shake 0.4s;
+}
+
+@keyframes shake {
+  20% { transform: translate(-2px, 2px); }
+40% { transform: translate(2px, -2px); }
+60% { transform: translate(-2px, 2px); }
+80% { transform: translate(2px, -2px); }
+}
+.aizen-line {
+  font-size: 42px;
+  font-weight: bold;
+  text-align: center;
+  letter-spacing: 3px;
+  margin-bottom: 30px;
+  color: rgba(255,255,255,0.9);
+
+  display: inline-block;
+}
+
+/* 🔤 EACH LETTER */
+.aizen-line span {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(10px) scale(0.9);
+  animation: letterFade 0.6s forwards;
+}
+
+/* ✨ LETTER ANIMATION */
+@keyframes letterFade {
+  0% {
+    opacity: 0;
+    transform: translateY(20px) scale(0.8);
+    filter: blur(4px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+}
+
+/* 😈 GLITCH FLASH */
+.aizen-line span:nth-child(odd) {
+  animation-delay: 0.05s;
+}
+
+.aizen-line span:nth-child(even) {
+  animation-delay: 0.1s;
+}
+
+/* 🔥 GLOW */
+.aizen-line {
+  text-shadow:
+    0 0 10px #fff,
+    0 0 20px #9333ea,
+    0 0 40px #6a00ff;
+}
+@keyframes fadeInSlow {
+  0% { opacity: 0; transform: translateY(10px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+/* 😈 GLITCH TEXT */
+.glitch {
+  position: relative;
+  color: white;
+  animation: flicker 0.3s infinite;
+}
+
+/* 👤 DUPLICATE SHADOW */
+.glitch::before,
+.glitch::after {
+  content: attr(data-text);
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  overflow: hidden;
+}
+
+.glitch::before {
+  color: #f4efef;
+  transform: translate(2px, 0);
+  animation: glitch1 0.3s infinite;
+}
+
+.glitch::after {
+  color: #f8f2f2;
+  transform: translate(-2px, 0);
+  animation: glitch2 0.3s infinite;
+}
+
+@keyframes glitch1 {
+  0% { transform: translate(2px, 0); }
+  50% { transform: translate(-2px, 1px); }
+  100% { transform: translate(2px, 0); }
+}
+
+@keyframes glitch2 {
+  0% { transform: translate(-2px, 0); }
+  50% { transform: translate(2px, -1px); }
+  100% { transform: translate(-2px, 0); }
+}
+
+@keyframes flicker {
+  0% { opacity: 1; }
+  50% { opacity: 0.6; }
+  100% { opacity: 1; }
+}
+.aizen-title {
+/* style.css bottom-la replace pannunga */
+
+/* 🔥 UPGRADED AIZEN TITLE GLOW - Exactly as requested */
+
+    /* Front Text Colour - Pure White for readability */
+    color: #ffffff !important; 
+
+    /* Back Glow Colour - Powers list vibes (Deep Blue/Cyan) */
+    text-shadow: 
+        0 0 10px #3abaed,   /* Powers list Cyan Glow */
+        0 0 20px #3abaed,   /* Deepening the glow */
+        0 0 35px #3abaed,   /* Reaching peak visibility */
+        0 0 60px #1e3a8a,   /* Dark Blue depth for villain feel */
+        1px 1px 5px #f9f6f6; /* Subtle Black depth for contrast */
+        
+    font-size: 50px !important;
+    font-weight: 900 !important;
+    text-align: center !important;
+    letter-spacing: 5px !important;
+    margin-bottom: 25px !important;
+    display: inline-block !important;
+
+    /* OPTIONAL: Optional glow pulse animation for extra mass */
+    animation: glowBluePulse 2.5s infinite alternate !important;
+}
+
+@keyframes glowBluePulse {
+    from {
+        text-shadow: 0 0 10px #3abaed, 0 0 20px #3abaed, 0 0 35px #3abaed, 0 0 60px #1e3a8a, 1px 1px 5px #000;
+    }
+    to {
+        text-shadow: 0 0 15px #3abaed, 0 0 30px #3abaed, 0 0 45px #3abaed, 0 0 80px #1e3a8a, 1px 1px 5px #000;
+    }
+}
+  
+  
+
+
+
+
+  
+  
+  .navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+
+  padding: 18px 6%;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  /* 🔥 DEPTH + GLASS + AURA */
+  background: linear-gradient(
+    120deg,
+    rgba(5, 0, 15, 0.9),
+    rgba(20, 0, 40, 0.7),
+    rgba(0, 10, 25, 0.6)
+  );
+
+  backdrop-filter: blur(20px) saturate(180%);
+
+  border-bottom: 1px solid rgba(168, 85, 247, 0.3);
+
+  /* 🔥 GLOW EDGE */
+  box-shadow:
+    0 0 15px rgba(168,85,247,0.3),
+    0 0 40px rgba(0,234,255,0.15),
+    inset 0 -1px 10px rgba(168,85,247,0.2);
+
+  color: #a855f7;
+  z-index: 1000;
+  box-sizing: border-box;
+
+  overflow: hidden;
+}
+
+
+
+.logo {
+  font-weight: bold;
+  letter-spacing: 2px;
+  text-shadow: 0 0 10px #a855f7;
+}
+
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 20px;
+}
+
+.nav-links li {
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.nav-links li:hover {
+  color: white;
+  text-shadow:
+    0 0 10px #a855f7,
+    0 0 20px #7c3aed;
+  transform: scale(1.1);
+}
+/* style.css-oda bottom-la replace pannunga */
+
+/* 👿 Forced Villain Theme - Priority Fixed */
+.container #auraContainer .aura-text {
+    color: #f8fafc !important; 
+    font-size: 28px !important;
+    font-weight: 900 !important;
+    letter-spacing: 5px !important;
+    text-align: center !important;
+    display: block !important;
+    text-transform: uppercase !important;
+    
+    text-shadow: 
+    0 0 10px #3abaed, 
+    0 0 25px #00eaff, 
+    0 0 45px #00c3ff, 
+    0 0 70px #0099cc !important;
+    margin-top: 20px !important;
+    animation: villainAura 2.5s ease-in-out forwards !important;
+}
+
+@keyframes villainAura {
+    0% { opacity: 0; transform: scale(0.8) translateY(20px); filter: blur(10px); }
+    30% { opacity: 1; transform: scale(1.1) translateY(0); filter: blur(0px); }
+    70% { opacity: 1; transform: scale(1.1); filter: blur(0px); }
+    100% { opacity: 0; transform: scale(1.2) translateY(-20px); filter: blur(15px); }
+}
+
+.powers-active span {
+  display: block;
+  margin: 8px;
+
+  color: #3abaed !important;
+
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.4s ease;
+
+  text-shadow:
+    0 0 5px #3abaed,
+    0 0 15px #00eaff,
+    0 0 30px #00c3ff,
+    0 0 60px #0099cc !important;
+}
+.star {
+  position: fixed;
+  width: 2px;
+  height: 2px;
+  background: white;
+  border-radius: 50%;
+  z-index: 0;
+
+  box-shadow:
+    0 0 5px white,
+    0 0 10px white,
+    0 0 20px #00eaff;
+
+  animation: twinkle 6s infinite alternate;
+}
+@keyframes moveStar {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(100vh);
+  }
+}
+@keyframes twinkle {
+  from { opacity: 0.3; }
+  to { opacity: 1; }
+}
+#aizenImg {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.2);
+  opacity: 0;
+  width: 280px;
+  z-index: 999;
+  transition: all 0.25s ease;
+  pointer-events: none;
+}
+
+#aizenImg.active {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1.1);
+}
+/* 🔥 AIZEN LOGO CLICK EFFECT BASE */
+.logo {
+  cursor: pointer;
+  position: relative;
+  transition: 0.3s;
+}
+
+/* 🔥 HOVER (pre-effect) */
+.logo:hover {
+  text-shadow:
+    0 0 10px #a855f7,
+    0 0 20px #9333ea,
+    0 0 40px #6a00ff;
+}
+
+/* ⚡ CLICK EFFECT (JS add pannum class use pannum) */
+body.logo-active {
+  animation: logoShock 0.4s;
+}
+
+@keyframes logoShock {
+  20% { transform: translate(-2px, 2px); }
+  40% { transform: translate(2px, -2px); }
+  60% { transform: translate(-2px, 2px); }
+  80% { transform: translate(2px, -2px); }
+}
+
+/* 🔮 PURPLE DOMAIN FLASH */
+.aizen-domain-flash {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.5);
+
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+
+  background: radial-gradient(circle,
+    rgba(168,85,247,0.9),
+    rgba(106,0,255,0.5),
+    transparent 70%);
+
+  z-index: 9999;
+  pointer-events: none;
+
+  animation: domainExpand 0.6s ease-out;
+}
+
+@keyframes domainExpand {
+  to {
+    transform: translate(-50%, -50%) scale(4);
+    opacity: 0;
+  }
+}
+/* 🌫️ BREATH EFFECT (world pulse) */
+body.breath {
+  animation: breatheWorld 2s ease-in-out;
+}
+
+@keyframes breatheWorld {
+  0% { transform: scale(1); filter: brightness(1); }
+  50% { transform: scale(1.01); filter: brightness(1.1); }
+  100% { transform: scale(1); filter: brightness(1); }
+}
+
+
+/* 🧠 WHISPER TEXT (floating illusion lines) */
+.whisper {
+  position: fixed;
+  left: 50%;
+  bottom: 20%;
+
+  transform: translateX(-50%) scale(0.8);
+  opacity: 0;
+
+  font-size: 18px;
+  letter-spacing: 2px;
+  white-space: nowrap;
+
+  color: rgba(255,255,255,0.9);
+
+  text-shadow:
+    0 0 10px #3abaed,
+    0 0 20px #00eaff,
+    0 0 40px #0099cc;
+
+  pointer-events: none;
+  z-index: 9999;
+
+  animation: whisperFade 2s ease forwards;
+}
+
+@keyframes whisperFade {
+  0% {
+    opacity: 0;
+    transform: translateX(-50%) translateY(20px) scale(0.8);
+    filter: blur(5px);
+  }
+  50% {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0) scale(1);
+    filter: blur(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-20px) scale(1.1);
+    filter: blur(6px);
+  }
+}
+
+
+/* 👁️ BACKGROUND PARALLAX SMOOTH */
+.background {
+  transition: transform 0.2s ease-out;
+}
+
+.overlay {
+  transition: transform 0.3s ease-out;
+}
+@keyframes waveExpand {
+  0% {
+    transform: scale(0.5);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(4);
+    opacity: 0;
+  }
+}
+/* 🔥 NAV ITEM BASE */
+.nav-links li {
+  position: relative;
+  cursor: pointer;
+  letter-spacing: 2px;
+  transition: all 0.3s ease;
+}
+
+/* 🔥 GLOW BREATH (idle animation) */
+.nav-links li {
+  animation: navBreath 3s infinite ease-in-out;
+}
+
+@keyframes navBreath {
+  0%, 100% {
+    text-shadow: 0 0 5px #3abaed;
+  }
+  50% {
+    text-shadow:
+      0 0 10px #00eaff,
+      0 0 20px #00c3ff;
+  }
+}
+
+/* 🔥 HOVER = POWER MODE */
+.nav-links li:hover {
+  color: #fff;
+  transform: scale(1.2) translateY(-2px);
+
+  text-shadow:
+    0 0 10px #a855f7,
+    0 0 20px #9333ea,
+    0 0 40px #6a00ff;
+}
+
+/* 🔥 ENERGY UNDERLINE */
+.nav-links li::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -5px;
+  width: 0%;
+  height: 2px;
+  background: linear-gradient(90deg, #00eaff, #a855f7);
+  transition: all 0.4s ease;
+  transform: translateX(-50%);
+}
+
+.nav-links li:hover::after {
+  width: 120%;
+}
+
+/* 🔥 GLITCH EFFECT */
+.nav-links li:hover::before {
+  content: attr(id);
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: #00eaff;
+  opacity: 0.4;
+  transform: translate(2px, -2px);
+}
+
+/* 🔥 CLICK PULSE */
+.nav-links li:active {
+  transform: scale(0.9);
+
+  text-shadow:
+    0 0 20px #00eaff,
+    0 0 40px #a855f7,
+    0 0 60px #6a00ff;
+}
+/* 🔥 AIZEN LOGO = NAV LEVEL ANIMATION */
+.logo {
+  position: relative;
+  cursor: pointer;
+  letter-spacing: 3px;
+  animation: navBreath 3s infinite ease-in-out;
+  transition: all 0.3s ease;
+}
+
+/* 🔥 HOVER POWER MODE */
+.logo:hover {
+  transform: scale(1.2) translateY(-2px);
+
+  text-shadow:
+    0 0 10px #a855f7,
+    0 0 20px #9333ea,
+    0 0 40px #6a00ff;
+}
+
+/* 🔥 ENERGY UNDERLINE */
+.logo::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -5px;
+  width: 0%;
+  height: 2px;
+  background: linear-gradient(90deg, #00eaff, #a855f7);
+  transition: all 0.4s ease;
+  transform: translateX(-50%);
+}
+
+.logo:hover::after {
+  width: 120%;
+}
+
+/* 🔥 GLITCH EFFECT */
+.logo:hover::before {
+  content: "AIZEN";
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: #00eaff;
+  opacity: 0.4;
+  transform: translate(2px, -2px);
+}
+
+/* 🔥 CLICK PULSE */
+.logo:active {
+  transform: scale(0.9);
+
+  text-shadow:
+    0 0 20px #00eaff,
+    0 0 40px #a855f7,
+    0 0 60px #6a00ff;
+}
+/* 🔥 BASE GOD MODE */
+.aizen-title {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+  letter-spacing: 5px;
+  transition: all 0.3s ease;
+
+  color: #fff;
+
+  text-shadow:
+    0 0 10px #3abaed,
+    0 0 30px #00eaff,
+    0 0 60px #0099cc;
+
+  animation: aizenBreath 4s infinite ease-in-out;
+}
+
+/* 🔥 BREATHING ENERGY */
+@keyframes aizenBreath {
+  0%, 100% {
+    text-shadow:
+      0 0 10px #3abaed,
+      0 0 30px #00eaff;
+  }
+  50% {
+    text-shadow:
+      0 0 20px #00eaff,
+      0 0 50px #a855f7,
+      0 0 80px #6a00ff;
+  }
+}
+
+/* 🔥 HOVER = AWAKENING */
+.aizen-title:hover {
+  transform: scale(1.15);
+
+  text-shadow:
+    0 0 20px #00eaff,
+    0 0 40px #a855f7,
+    0 0 80px #6a00ff,
+    0 0 120px #9333ea;
+}
+
+/* 🔥 GLITCH LAYER 1 */
+.aizen-title::before {
+  content: attr(data-text);
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: #00eaff;
+  opacity: 0.4;
+  transform: translate(2px, -2px);
+  pointer-events: none;
+}
+
+/* 🔥 GLITCH LAYER 2 */
+.aizen-title::after {
+  content: attr(data-text);
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: #a855f7;
+  opacity: 0.3;
+  transform: translate(-2px, 2px);
+  pointer-events: none;
+}
+
+/* 🔥 HOVER GLITCH CHAOS */
+.aizen-title:hover::before {
+  transform: translate(5px, -5px);
+  opacity: 0.6;
+}
+
+.aizen-title:hover::after {
+  transform: translate(-5px, 5px);
+  opacity: 0.6;
+}
+
+/* 🔥 ENERGY LINE UNDER */
+.aizen-title::selection {
+  background: #a855f7;
+}
+
+/* 🔥 CLICK IMPACT */
+.aizen-title:active {
+  transform: scale(0.95);
+
+  text-shadow:
+    0 0 40px #00eaff,
+    0 0 80px #a855f7,
+    0 0 120px #6a00ff;
+}
+#enterBtn {
+  position: relative;
+  padding: 18px 50px;
+  font-size: 18px;
+  letter-spacing: 3px;
+  font-weight: bold;
+
+  color: #e0ccff;
+  background: transparent;
+
+  border: 1px solid rgba(168,85,247,0.5);
+  border-radius: 40px;
+
+  cursor: pointer;
+  overflow: hidden;
+
+  transition: 0.4s ease;
+
+  /* glow base */
+  box-shadow:
+    0 0 10px rgba(168,85,247,0.4),
+    inset 0 0 10px rgba(168,85,247,0.2);
+}
+
+/* 🔮 Hover – Aizen awaken feel */
+#enterBtn:hover {
+  color: #fff;
+
+  box-shadow:
+    0 0 20px #a855f7,
+    0 0 40px #9333ea,
+    0 0 80px #6a00ff;
+
+  transform: scale(1.05);
+}
+
+/* ⚡ Moving aura layer */
+#enterBtn::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 200%;
+  height: 100%;
+
+  background: linear-gradient(
+    120deg,
+    transparent,
+    rgba(168,85,247,0.6),
+    rgba(0,234,255,0.4),
+    transparent
+  );
+
+  animation: auraMove 3s linear infinite;
+}
+
+/* 💀 pulse glow */
+#enterBtn::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 40px;
+
+  box-shadow:
+    0 0 15px rgba(168,85,247,0.4),
+    0 0 40px rgba(0,234,255,0.2);
+
+  opacity: 0.6;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+/* animations */
+@keyframes auraMove {
+  0% { left: -100%; }
+  100% { left: 100%; }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 1; }
+}
+#enterBtn {
+  font-family: "Cinzel", "Georgia", serif;
+  font-size: 20px;
+  letter-spacing: 4px;
+  font-weight: 900;
+
+  color: #ffffff;
+
+  text-shadow:
+    0 0 10px #3abaed,
+    0 0 25px #00eaff,
+    0 0 50px #0099cc,
+    0 0 80px #6a00ff;
+  text-transform: uppercase;
+}
+#enterBtn {
+  font-family: inherit;
+  font-weight: 900;
+  letter-spacing: 5px;
+
+  color: #ffffff;
+
+  text-shadow:
+    0 0 10px #3abaed,
+    0 0 30px #00eaff,
+    0 0 60px #0099cc,
+    0 0 80px #1e3a8a;
+
+  text-transform: uppercase;
+}
+.powers {
+  margin-top: 30px;
+  text-align: center;
+  perspective: 1000px;
+}
+
+.powers span {
+  display: block;
+  font-size: 34px;
+  font-weight: 900;
+  letter-spacing: 3px;
+
+  color: #ffffff;
+
+  opacity: 0;
+  transform: translateY(40px) scale(0.8) rotateX(60deg);
+
+  text-shadow:
+    0 0 10px #00eaff,
+    0 0 25px #3abaed,
+    0 0 50px #0099ff,
+    0 0 100px #6a00ff;
+
+  transition: all 0.6s ease;
+}
+
+.powers-active span,
+#powersList span.show {
+  opacity: 1;
+  transform: translateY(0) scale(1) rotateX(0deg);
+  animation: powerPulse 2s infinite ease-in-out;
+}
+
+@keyframes powerPulse {
+  0%, 100% {
+    text-shadow:
+      0 0 10px #00eaff,
+      0 0 30px #3abaed,
+      0 0 60px #0099ff;
+  }
+  50% {
+    text-shadow:
+      0 0 20px #a855f7,
+      0 0 60px #00eaff,
+      0 0 120px #6a00ff;
+  }
+}
+.powers span {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.4s ease;
+}
+
+.powers span.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+.flash {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: white;
+  opacity: 0.8;
+  z-index: 9999;
+  animation: flashFade 0.5s ease-out;
+}
+
+@keyframes flashFade {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+.aizen-card{
+  position:fixed;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%) scale(0);
+  width:320px;
+  padding:25px;
+
+  background:rgba(0,0,0,0.85);
+  border:1px solid #00eaff;
+  border-radius:15px;
+
+  color:white;
+  text-align:center;
+
+  box-shadow:
+    0 0 20px #00eaff,
+    0 0 60px #a855f7;
+
+  z-index:99999;
+  transition:0.4s ease;
+  overflow:hidden;
+}
+
+/* glow effect inside card */
+.card-glow{
+  position:absolute;
+  top:-50%;
+  left:-50%;
+  width:200%;
+  height:200%;
+  background:radial-gradient(circle,#00eaff33,transparent 60%);
+  animation:rotateGlow 4s linear infinite;
+}
+
+@keyframes rotateGlow{
+  0%{transform:rotate(0deg);}
+  100%{transform:rotate(360deg);}
+}
+
+/* show animation */
+.aizen-card.show{
+  transform:translate(-50%,-50%) scale(1);
+}
+
+/* hide helper */
+.hidden{
+  display:none;
+}
+
+/* text styles */
+.aizen-card h2{
+  font-size:22px;
+  letter-spacing:3px;
+  color:#00eaff;
+  text-shadow:0 0 10px #00eaff;
+}
+
+.aizen-card .msg{
+  margin-top:10px;
+  font-size:42px;
+  opacity:0.8;
+  text-shadow:0 0 10px #a855f7;
+}
+
+.aizen-card .seal{
+  margin-top:15px;
+  font-size:12px;
+  letter-spacing:3px;
+  color:#a855f7;
+  text-shadow:0 0 10px #a855f7;
+}
+
+/* 🔥 HADO TEXT STYLE */
+.hado-text {
+  margin-left: 10px;
+  font-size: 14px;
+  letter-spacing: 2px;
+
+  color: #ff3b3b; /* 🔥 red vibe */
+
+  text-shadow:
+    0 0 5px #ff3b3b,
+    0 0 10px #ff0000,
+    0 0 20px #990000;
+
+  opacity: 0.8;
+  transition: 0.3s;
+}
+
+/* 🔥 hover power boost */
+.logo:hover .hado-text {
+  opacity: 1;
+  text-shadow:
+    0 0 10px #ff0000,
+    0 0 20px #ff3b3b,
+    0 0 40px #ff0000;
+}
+.hado-text {
+  margin-left: 10px;
+  font-size: 16px;
+  letter-spacing: 2px;
+
+  color: inherit;        /* 🔥 AIZEN same colour */
+  text-shadow: inherit;  /* 🔥 same glow */
+
+  opacity: 0.8;
+  transition: 0.3s;
+}
+/* 🔥 HADO 90 BLACK DOMAIN */
+.hado-domain {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.2);
+
+  width: 400px;
+  height: 400px;
+
+  background: radial-gradient(circle,
+    rgba(0,0,0,0.95),
+    rgba(80,0,120,0.7),
+    transparent 70%);
+
+  border-radius: 50%;
+
+  box-shadow:
+    0 0 50px #6a00ff,
+    0 0 120px #000,
+    inset 0 0 80px #a855f7;
+
+  z-index: 99999;
+  pointer-events: none;
+
+  animation: hadoExpand 0.8s ease-out;
+}
+
+@keyframes hadoExpand {
+  to {
+    transform: translate(-50%, -50%) scale(3);
+    opacity: 0;
+  }
+}
+
+/* 🐉 IMAGE BLAST */
+.hado-img {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.5);
+
+  width: 350px;
+  z-index: 99999;
+
+  opacity: 0;
+  animation: hadoImg 0.8s ease-out;
+}
+
+@keyframes hadoImg {
+  0% { opacity: 1; transform: translate(-50%, -50%) scale(0.5); }
+  100% { opacity: 0; transform: translate(-50%, -50%) scale(1.8); }
+}
+.center-text {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+
+  font-size: 22px;
+  font-weight: 900;
+  letter-spacing: 4px;
+
+  color: #ffffff;
+
+  text-shadow:
+    0 0 10px #00eaff,
+    0 0 30px #a855f7,
+    0 0 60px #6a00ff;
+
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+/* 🔥 hover effect */
+.center-text:hover {
+  transform: translateX(-50%) scale(1.2);
+
+  text-shadow:
+    0 0 20px #00eaff,
+    0 0 50px #a855f7,
+    0 0 100px #6a00ff;
+}
+.navbar {
+  position: relative; /* 🔥 MUST */
+}
+
+.center-text {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+
+  font-size: 22px;
+  font-weight: 900;
+  letter-spacing: 4px;
+
+   color: #a855f7;
+
+  text-shadow:
+    0 0 10px #3abaed,
+    0 0 30px #00eaff,
+    0 0 60px #0099cc,
+    0 0 80px #1e3a8a;
+  
+}
+/* 👁️ EYE CONTAINER */
+
+
+/* 👁️ PUPIL */
+.pupil {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+
+  width: 40px;
+  height: 40px;
+
+  background: black;
+  border-radius: 50%;
+
+  transform: translate(-50%, -50%);
+}
+/* 🔥 GOD EYE */
+
+.eye {
+  position: fixed;
+  width: 160px;
+  height: 160px;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: radial-gradient(circle, #000 40%, #111 70%);
+  box-shadow:
+    0 0 30px #00eaff,
+    0 0 80px #a855f7,
+    inset 0 0 30px #00eaff;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  z-index: 9999;
+  animation: eyePulse 3s infinite ease-in-out;
+}
+
+.pupil {
+  width: 40px;
+  height: 40px;
+  background: #00eaff;
+  border-radius: 50%;
+  box-shadow:
+    0 0 10px #00eaff,
+    0 0 30px #00eaff,
+    0 0 60px #a855f7;
+  transition: transform 0.1s linear;
+}
+
+/* 🔥 ROTATING RING */
+.eye::before {
+  content: "";
+  position: absolute;
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  border: 2px solid rgba(0,234,255,0.4);
+  animation: rotateRing 6s linear infinite;
+}
+
+/* 🔥 INNER GLOW RING */
+.eye::after {
+  content: "";
+  position: absolute;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  box-shadow: 0 0 40px #a855f7 inset;
+}
+
+/* 🔥 ANIMATIONS */
+@keyframes rotateRing {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes eyePulse {
+  0%,100% {
+    transform: translate(-50%, -50%) scale(1);
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.08);
+  }
+}
+.hand-target {
+  position: absolute;
+
+  /* 👇 adjust pannunga until perfect match */
+  top: 59%;
+  left: 52%;
+
+  width: 80px;
+  height: 80px;
+}

@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ultra Premium Villain ID</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+ height:100vh;display:flex;justify-content:center;align-items:center;
+ background:radial-gradient(circle,#05010a,#000);
+ font-family:'Montserrat',sans-serif;
+}
+
+.wrapper{perspective:1500px}
+
+.card{
+ width:340px;height:520px;border-radius:18px;
+ position:relative;
+ transform-style:preserve-3d;
+ transition:0.6s ease;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+}
+
+.wrapper:hover .card{transform:rotateY(180deg)}
+
+.face{
+ position:absolute;width:100%;height:100%;
+ border-radius:18px;overflow:hidden;
+ backface-visibility:hidden;
+ background:linear-gradient(160deg,#140024,#6a00ff);
+ box-shadow:0 0 40px rgba(140,0,255,0.6);
+ color:#fff;
+}
+
+/* FRONT */
+.front{padding:18px}
+
+.header{
+ text-align:center;
+ margin-bottom:10px;
+  border-bottom: 1px solid rgba(255,255,255,0.15);
+}
+.header h2{
+ font-size:18px;
+ letter-spacing:2px;
+ font-weight:800;
+}
+.header p{font-size:11px;opacity:.7}
+
+.profile{text-align:center;margin-top:10px}
+.profile img{
+ 
+  width:130px;
+  height:150px;
+  object-fit:cover;
+  border-radius:10px;
+  border:2px solid #fff;
+  image-rendering: crisp-edges;
+  filter: contrast(115%) brightness(110%) saturate(105%);
+}
+
+
+.name{
+ margin-top:12px;
+ font-size:22px;
+ font-weight:800;
+ letter-spacing:1.5px;
+}
+.role{
+ font-size:12px;
+ color:#d8b4fe;
+}
+
+.details{margin-top:20px}
+.row{
+ display:flex;justify-content:space-between;
+ padding:8px 0;
+ border-bottom:1px solid rgba(255,255,255,0.2);
+ font-size:14px;
+}
+
+.footer{
+ position:absolute;bottom:0;width:100%;
+ text-align:center;padding:5px;
+ background:rgba(0,0,0,0.3);
+ font-size:11px;
+ letter-spacing:1px;
+}
+
+/* BACK */
+.back{
+ transform:rotateY(180deg);
+ display:flex;flex-direction:column;justify-content:center;align-items:center;
+ padding:20px;text-align:center;
+ font-size: 12px;
+  line-height: 1.8;
+  opacity: 0.85;
+  
+}
+
+.back h3{font-size:16px;margin-bottom:10px}
+.back p{font-size:12px;line-height:1.6;margin-bottom:15px}
+
+.barcode{
+ width:200px;height:60px;
+ background:repeating-linear-gradient(90deg,#fff,#fff 2px,#000 2px,#000 4px);
+ margin-bottom:15px;
+}
+
+.qr{
+ width:90px;height:90px;
+ background:url('https://api.qrserver.com/v1/create-qr-code/?size=120x120&data=TOJI FUSHIGRO') center/cover;
+}
+
+/* subtle glow animation */
+@keyframes glow{
+ 0%,100%{box-shadow:0 0 25px #a855f7}
+ 50%{box-shadow:0 0 45px #c084fc}
+}
+
+</style>
+</head>
+<body>
+
+<div class="wrapper">
+<div class="card">
+
+<div class="face front">
+
+<div class="header">
+<h2>SHADOW INSTITUTE</h2>
+<p>ELITE VILLAIN IDENTIFICATION SYSTEM</p>
+</div>
+
+<div class="profile">
+<img src="TOJI.png">
+<div class="name">ZENIN TOJI</div>
+<div class="role">SILENT TERMINATOR</div>
+</div>
+
+<div class="details">
+<div class="row"><span>UNIT ID :</span><span>ZN-0001</span></div>
+<div class="row"><span>NAME :</span><span>TOJI FUSHIGRO</span></div>
+<div class="row"><span>RANK :</span><span>ZERO CURSE ENTITY</span></div>
+<div class="row"><span>STATUS :</span><span>THREAT LEVEL MAX</span></div>
+<div class="row"><span>DATE OF BIRTH :</span><span>12.08.1972</span></div>
+ <div class="row"><span>BLOOD GROUP :</span><span>B+</span></div>
+</div>
+
+<div class="footer">SECURE • CLASSIFIED • VERIFIED</div>
+
+</div>
+
+<div class="face back">
+
+<h3>OFFICIAL NOTICE</h3>
+<p>
+THIS IDENTITY CARD IS ISSUED UNDER SHADOW AUTHORITY.
+UNAUTHORIZED DUPLICATION OR MISUSE WILL RESULT IN TERMINATION.
+</p>
+
+<div class="barcode"></div>
+<div class="qr"></div>
+
+</div>
+
+</div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ultimate Aizen License Cover</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;900&family=Dancing+Script:wght@700&family=Noto+Serif+JP:wght@700&display=swap" rel="stylesheet">
+
+<style>
+body {
+  margin: 0;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: radial-gradient(circle, #050505, #000000);
+  font-family: 'Cinzel', serif;
+  perspective: 1000px;
+}
+
+.card {
+  width: 350px;
+  height: 220px;
+  border-radius: 18px;
+  position: relative;
+  overflow: hidden;
+  background: #000;
+  z-index: 1;
+  transition: transform 0.1s ease-out;
+}
+
+/* Texture layer */
+.card::before {
+  
+  content: "";
+  position: absolute;
+  inset: 0; 
+  border-radius: 18px;
+  pointer-events: none;
+  
+  /* Deep Abyss Purple to Electric Neon */
+  /* #0a0014 (Black-Purple) -> #4b0082 (Indigo) -> #9400d3 (Dark Violet) */
+  background: radial-gradient(circle at 20% 30%, #4b0082 0%, #0a0014 70%);
+  
+  /* Neon Purple "Edge Glow" - License-oda corner-la light adikkura maari */
+  box-shadow: 
+    inset 0 0 50px rgba(0, 0, 0, 0.9), 
+    inset 0 0 20px rgba(188, 19, 254, 0.4);
+    
+  /* Texture: Card-ku oru premium depth thara */
+  background-image: 
+    radial-gradient(circle at 20% 30%, #4b0082 0%, #0a0014 70%),
+    repeating-linear-gradient(45deg, rgba(188, 19, 254, 0.03) 0px, rgba(188, 19, 254, 0.03) 1px, transparent 1px, transparent 10px);
+
+  opacity: 1; /* Full depth venum na 1 vachukonga */
+  z-index: -1;
+}
+
+/* Subtle shine effect */
+.card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(120deg, transparent, rgba(255,255,255,0.08), transparent);
+  pointer-events: none;
+}
+
+
+
+.title {
+  position: absolute;
+  top: 10px;
+  left: 20px;
+  font-size: 14px;
+  letter-spacing: 2px;
+  color: #ffffff;
+}
+
+.name {
+  position: absolute;
+  top: 40px;
+  left: 20px;
+  font-size: 20px;
+  font-weight: 900;
+  color: #ffffff;
+  text-shadow: 0 0 10px purple;
+}
+
+.details {
+  position: absolute;
+  left: 20px;
+  font-size: 12px;
+  color: #fff;
+}
+
+
+
+.d1 { top: 70px; }
+.d2 { top: 90px; }
+.d3 { top: 110px; }
+.d4 { top: 130px; } /* or 145px */
+.photo {
+  position: absolute;
+  right: 15px;
+  top: 32px;
+  width: 100px;
+  height: 120px;
+  border-radius: 12px;
+  object-fit: cover;
+  border: 6px solid transparent;
+  background:
+    linear-gradient(#000, #000) padding-box,
+    linear-gradient(135deg, #f6f2f5, #aa90d7, #f6f2f5) border-box;
+  background-origin: border-box;
+  background-clip: padding-box, border-box;
+}
+
+/* SIGNATURE - PERFECTLY ALIGNED TO BOTTOM */
+.signature-box {
+  position: absolute;
+  right: 15px;
+  top: 165px; /* Neenga ketta maari bottom-la fix panniyachu */
+  width: 110px;
+  text-align: center;
+}
+
+.sig-label {
+ 
+  font-size: 6px;           /* 7px-la irundhu 8px-ku mathunga */
+  color: #ffffff;          /* Pure white-ku mathuna nalla clear-ah theriyum */
+  letter-spacing: 1.5px;
+  font-weight: 900;        /* Bold pannidunga */
+  opacity: 1;              /* Opacity full-ah veinga */
+}
+
+
+.sig-line {
+  height: 2px;
+  width: 100%;
+  background: rgba(255,255,255,0.3);
+  margin-bottom: 4px;
+}
+
+.sig-text {
+  font-family: 'Noto Serif JP', serif;
+  font-size: 14px;
+  font-weight: 900;
+  color: #fff;
+  transform: rotate(-3deg);
+  display: block;
+  text-shadow: 0 0 5px rgba(255,255,255,0.6);
+}
+
+.sig-cursive {
+  font-family: 'Dancing Script', cursive;
+  font-weight: 700;
+  font-size: 13px;
+  color: rgba(255,255,255,0.8);
+  display: block;
+  margin-top: -5px;
+}
+
+.barcode {
+  position: absolute;
+  bottom: 8px;
+  left: 20px;
+  width: 50px;
+  height: 50px;
+  background: white;
+  padding: 4px;
+  border-radius: 6px;
+}
+/* --- Bright Serial ID in the Gap --- */
+.bright-serial-container {
+    position: absolute;
+    bottom: 8px; /* Barcode-kum Sign-kum naduvula height */
+    left: 95px;   /* Center gap location */
+    width: 110px;
+    text-align: center;
+    padding: 4px 0;
+    /* Chinna light glow line for depth */
+    border-top: 1px solid rgba(138, 43, 226, 0.4); 
+    border-bottom: 1px solid rgba(138, 43, 226, 0.4);
+}
+
+.serial-id-text {
+    font-family: 'Cinzel', serif;
+    font-size: 11px; /* Bright-ah theriya size konjam yethirukaen */
+    font-weight: 900;
+    letter-spacing: 3px;
+    color: #ffffff; /* Pure white for maximum brightness */
+    text-shadow: 0 0 8px rgba(138, 43, 226, 0.8); /* Purple Glow effect */
+    display: block;
+}
+
+.serial-label {
+    font-size: 11px;
+    color: #ffffff;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-top: 2px;
+    display: block;
+}
+</style>
+</head>
+
+<body>
+
+<div class="card" id="card">
+
+  <div class="title"> GOVERNMENT OF JAPAN</div>
+  <div class="name" id="username">SOSUKE AIZEN</div>
+
+  <div class="details d1">DL : 1234-5678-9012</div>
+  <div class="details d2">CLASS : FUTSUU NIRIN</div>
+  <div class="details d3">VALID TILL : 2045</div>
+<div class="details d4">DOB : 17/12/1000</div>
+  <img class="photo" id="photo" src="AIZEN.jpg">
+
+  <div class="signature-box">
+    <div class="sig-label">SIGNATURE OF HOLDER</div>
+    <div class="sig-line"></div>
+    <span class="sig-text">藍染 惣右介</span>
+    <span class="sig-cursive">Sosuke Aizen</span>
+  </div>
+
+  
+  <img class="barcode" src="https://api.qrserver.com/v1/create-qr-code/?size=500x500&data=Name : Aizen%20DL : 1234-5678-9012%20Class : FUTSUU%20NIRIN%20Valid : 2045">
+  <div class="bright-serial-container">
+    <span class="serial-id-text">AZ-0005-G13</span>
+    <span class="serial-label">AUTHENTICATED MASTERMIND ID</span>
+  </div>
+</div>
+
+<script>
+let name = prompt("Enter your name:");
+if(name) document.getElementById("username").innerText = name;
+
+let img = prompt("Paste your photo URL:");
+if(img) document.getElementById("photo").src = img;
+
+const card = document.getElementById("card");
+document.addEventListener("mousemove", (e)=>{
+  let x = (window.innerWidth/2 - e.pageX)/35;
+  let y = (window.innerHeight/2 - e.pageY)/35;
+  card.style.transform = `rotateY(${x}deg) rotateX(${y}deg)`;
+});
+</script>
+
+</body>
+</html>

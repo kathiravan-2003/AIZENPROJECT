@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Aizen Cinematic</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;900&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="style.css">
+
+<style>
+body.illusion {
+  filter: blur(10px) contrast(130%) brightness(0.7) !important;
+  transition: filter 0.5s ease;
+}
+
+.about-focus {
+  text-shadow: 0 0 25px #3abaed, 0 0 45px #00eaff;
+}
+
+.powers span {
+  color: #faf5f5eb;
+  font-size: 32px;
+  text-shadow:
+    0 0 5px #3abaed,
+    0 0 15px #00eaff,
+    0 0 30px #00c3ff,
+    0 0 60px #0099cc;
+  transition: all 0.4s ease;
+}
+
+.aura-text {
+  font-size: 30px;
+  font-weight: bold;
+  text-align: center;
+  letter-spacing: 4px;
+
+  color: #3abaed;
+
+  text-shadow:
+    0 0 10px #3abaed,
+    0 0 25px #00eaff,
+    0 0 50px #0099cc;
+
+  animation: fadeIn 0.5s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* 🔥 ADD ONLY (logo interaction - no break) */
+.logo {
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.logo:hover {
+  text-shadow:
+    0 0 10px #a855f7,
+    0 0 20px #9333ea,
+    0 0 40px #6a00ff;
+}
+
+.aizen-domain-flash {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle, rgba(168,85,247,0.8), transparent 70%);
+  z-index: 9999;
+  pointer-events: none;
+  animation: domainFlash 0.6s ease-out;
+}
+
+@keyframes domainFlash {
+  0% { opacity: 1; transform: scale(0.5); }
+  100% { opacity: 0; transform: scale(2); }
+}
+</style>
+</head>
+
+<body>
+
+<div class="background"></div>
+<div class="overlay"></div>
+
+<nav class="navbar">
+  <div class="logo">
+  AIZEN <span class="hado-text"id="hado90">HADŌ 90</span>
+</div>
+<div class="center-text"id="hoghyoku">HOGYOKU</div>
+  <ul class="nav-links">
+    <li id="homeBtn">HOME</li>
+    <li id="powersBtn">POWERS</li>
+    <li id="illusionBtn">ILLUSION</li>
+    <li id="aboutBtn">ABOUT</li>
+  </ul>
+</nav>
+
+<audio id="Aizen" src="YOKOSO.mp3"></audio>
+
+<div id="startScreen">
+  <div class="btn-wrapper">
+    <button id="enterBtn">WELCOME TO MY ILLUSION</button>
+  </div>
+</div>
+
+<div class="container" id="mainContent" style="display:none;">
+  <div class="hand-target"></div>
+  <h1 class="aizen-title glitch" data-text="Sōsuke Aizen" onclick="aizenAwaken()">
+    Sōsuke Aizen
+  </h1>
+
+  <audio id="voice" src="treachery.mp3"></audio>
+
+  <div class="dialogue" id="dialogueText"></div>
+
+  <div id="auraContainer" style="height: 50px; margin: 20px 0;"></div>
+
+  <div class="powers" id="powersList" style="display:none; margin-top: 30px;">
+    <span>🔥 KYŌKA SUIGETSU (PERFECT HYPNOSIS)</span>
+    <span>⚡ IMMENSE SPIRITUAL PRESSURE</span>
+    <span>🧠 GENIUS-LEVEL INTELLIGENCE</span>
+    <span>🦋 HŌGYOKU FUSION</span>
+    <span>☠️ ILLUSION MANIPULATION</span>
+  </div>
+</div>
+<!-- 💀 AIZEN CARD POPUP HERE -->
+<div id="aizenCard" class="aizen-card hidden">
+  <div class="card-glow"></div>
+
+  <h1>KYŌKA SUIGETSU</h1>
+  <h1 class="msg">You are already inside my illusion...</h1>
+
+  <div class="seal">◈ SOUL BIND ACTIVE ◈</div>
+</div>
+</div>
+
+<script>
+const text = `Y O K O S O . . .
+W A T A S H I N O . . . S O U L S O C I E T Y . . . Y A R E . . . Y A R E . . . I K U Z O . . . K Y Ō K A S U I G E T S U . . .`;
+
+let index = 0;
+let started = false;
+let particleStarted = false;
+
+function typeEffect() {
+  if (index < text.length) {
+    document.getElementById("dialogueText").innerHTML += text.charAt(index);
+    index++;
+    setTimeout(typeEffect, 60);
+  }
+}
+
+function enterDomain() {
+  document.getElementById("startScreen").style.display = "none";
+  document.getElementById("mainContent").style.display = "block";
+
+  document.getElementById("Aizen").play();
+
+  const flash = document.createElement("div");
+  flash.classList.add("flash");
+  document.body.appendChild(flash);
+  setTimeout(() => flash.remove(), 600);
+
+  document.body.classList.add("shake");
+  setTimeout(() => document.body.classList.remove("shake"), 400);
+
+  document.body.style.filter = "brightness(0.3)";
+  setTimeout(() => { document.body.style.filter = "none"; }, 800);
+
+  if (!started) {
+    typeEffect();
+    started = true;
+  }
+
+  if (!particleStarted) {
+    setInterval(createParticle, 150);
+    particleStarted = true;
+  }
+}
+
+/* NAVIGATION */
+
+document.getElementById("homeBtn").addEventListener("click", () => {
+  location.reload();
+});
+
+document.getElementById("powersBtn").addEventListener("click", () => {
+  const p = document.getElementById("powersList");
+
+  if (p.style.display === "none") {
+    p.style.display = "block";
+
+    document.body.classList.add("reiatsu");
+
+    const spans = p.querySelectorAll("span");
+
+    spans.forEach((span, i) => {
+     const spans = p.querySelectorAll("span");
+
+spans.forEach((span, i) => {
+  setTimeout(() => {
+    span.classList.add("show");
+  }, i * 300);
+});
+
+      setTimeout(() => {
+        span.style.opacity = "1";
+        span.style.transform = "translateY(0)";
+      }, i * 300);
+    });
+
+    setTimeout(() => {
+      document.body.classList.remove("reiatsu");
+    }, 1500);
+
+  } else {
+    p.style.display = "none";
+  }
+});
+
+document.getElementById("illusionBtn").addEventListener("click", () => {
+  document.body.classList.add("illusion");
+  setTimeout(() => {
+    document.body.classList.remove("illusion");
+  }, 2000);
+});
+
+/* ABOUT LOOP */
+
+const auraWords = [
+  "SŌSUKE AIZEN",
+  "THE VILLAIN",
+  "KYŌKA SUIGETSU",
+  "MASTER MANIPULATOR",
+  "SOUL SOCIETY'S FEAR",
+  "HŌGYOKU HOST"
+];
+let aboutRunning = false;
+let aboutIndex = 0;
+
+document.getElementById("aboutBtn").addEventListener("click", () => {
+  if (!aboutRunning) {
+    aboutRunning = true;
+    aboutIndex = 0; // 🔥 always fresh start
+    loopNames();
+  }
+});
+
+function loopNames() {
+  if (!aboutRunning) return;
+
+  const container = document.getElementById("auraContainer");
+
+  container.innerHTML = `
+    <div class="aura-text">${auraWords[aboutIndex]}</div>
+  `;
+
+  aboutIndex++;
+
+  // ✅ STOP CONDITION (IMPORTANT)
+  if (aboutIndex >= auraWords.length) {
+    aboutRunning = false;
+    aboutIndex = 0;
+    return;
+  }
+
+  setTimeout(loopNames, 1500);
+}
+
+
+function spawnCard() {
+  const card = document.getElementById("aizenCard");
+  if (!card) return; // safety check
+
+  card.classList.remove("hidden");
+
+  setTimeout(() => {
+    card.classList.add("show");
+  }, 50);
+
+  document.body.classList.add("illusion");
+
+  const flash = document.createElement("div");
+  flash.classList.add("flash");
+  document.body.appendChild(flash);
+
+  setTimeout(() => flash.remove(), 500);
+
+  const whisper = document.createElement("div");
+  whisper.className = "whisper";
+  whisper.innerText = "Reality bends under Aizen...";
+  document.body.appendChild(whisper);
+
+  setTimeout(() => whisper.remove(), 2000);
+
+  setTimeout(() => {
+    card.classList.remove("show");
+
+    setTimeout(() => {
+      card.classList.add("hidden");
+      document.body.classList.remove("illusion");
+    }, 300);
+
+  }, 3500);
+}
+/* PARTICLES */
+
+function createParticle() {
+  const p = document.createElement("div");
+  p.classList.add("particle");
+
+  p.style.left = Math.random() * window.innerWidth + "px";
+
+  const glow = Math.random() > 0.5 ? "#a855f7" : "#00eaff";
+
+  p.style.boxShadow = `0 0 5px white, 0 0 15px ${glow}, 0 0 30px ${glow}`;
+
+  p.style.width = Math.random() * 3 + 2 + "px";
+  p.style.height = p.style.width;
+
+  p.style.animation = "floatUp 6s linear";
+
+  document.body.appendChild(p);
+
+  setTimeout(() => p.remove(), 9000);
+}
+
+/* STARS */
+
+function createStar() {
+  const star = document.createElement("div");
+  star.classList.add("star");
+
+  star.style.top = Math.random() * window.innerHeight + "px";
+  star.style.left = Math.random() * window.innerWidth + "px";
+
+  const size = Math.random() * 3 + 1;
+  star.style.opacity = Math.random();
+
+  star.style.animationDuration = (Math.random() * 2 + 1) + "s";
+
+  star.style.width = size + "px";
+  star.style.height = size + "px";
+
+  document.body.appendChild(star);
+}
+
+for (let i = 0; i < 80; i++) createStar();
+
+/* AIZEN CLICK */
+
+function aizenAwaken() {
+  const voice = document.getElementById("voice");
+
+  voice.currentTime = 0;
+  voice.play();
+
+  const flash = document.createElement("div");
+  flash.classList.add("flash");
+  document.body.appendChild(flash);
+  setTimeout(() => flash.remove(), 500);
+
+  document.body.classList.add("illusion");
+  document.body.classList.add("shake");
+  document.body.classList.add("reiatsu");
+
+  for (let i = 0; i < 25; i++) createParticle();
+
+  setTimeout(() => {
+    document.body.classList.remove("illusion");
+    document.body.classList.remove("shake");
+    document.body.classList.remove("reiatsu");
+  }, 700);
+}
+
+/* 🔥 ADD ONLY - LOGO CLICK EFFECT (NO CHANGE) */
+document.querySelector(".logo").addEventListener("click", () => {
+
+  const voice = document.getElementById("voice");
+  if (voice) {
+    voice.currentTime = 0;
+    voice.play();
+  }
+
+  const flash = document.createElement("div");
+  flash.classList.add("aizen-domain-flash");
+  document.body.appendChild(flash);
+
+  setTimeout(() => flash.remove(), 600);
+
+  document.body.classList.add("illusion");
+  document.body.classList.add("reiatsu");
+  document.body.classList.add("shake");
+
+  setTimeout(() => {
+    document.body.classList.remove("illusion");
+    document.body.classList.remove("reiatsu");
+    document.body.classList.remove("shake");
+  }, 800);
+});
+/* 🔥 ADD BELOW YOUR EXISTING SCRIPT (DON'T TOUCH ABOVE) */
+
+/* 👁️ AIZEN GAZE (mouse follow) */
+document.addEventListener("mousemove", (e) => {
+  const x = (e.clientX / window.innerWidth - 0.5) * 10;
+  const y = (e.clientY / window.innerHeight - 0.5) * 10;
+
+  const bg = document.querySelector(".background");
+  const overlay = document.querySelector(".overlay");
+
+  if (bg) {
+    bg.style.transform = `translate(${x}px, ${y}px) scale(1.05)`;
+  }
+
+  if (overlay) {
+    overlay.style.transform = `translate(${x/2}px, ${y/2}px)`;
+  }
+});
+
+
+/* 🌫️ BREATHING WORLD */
+setInterval(() => {
+  document.body.classList.add("breath");
+
+  setTimeout(() => {
+    document.body.classList.remove("breath");
+  }, 2000);
+
+}, 4000);
+
+
+/* 🔮 RANDOM ILLUSION */
+setInterval(() => {
+  const rand = Math.random();
+
+  if (rand < 0.3) {
+    document.body.classList.add("illusion");
+    setTimeout(() => document.body.classList.remove("illusion"), 300);
+  }
+
+  if (rand < 0.2) {
+    document.body.classList.add("shake");
+    setTimeout(() => document.body.classList.remove("shake"), 200);
+  }
+
+}, 3000);
+
+
+/* 🧠 WHISPER SYSTEM */
+const whispers = [
+  "You are already under my control...",
+  "Reality is what I decide...",
+  "Did you really think you were free?",
+  "Kyōka Suigetsu..."
+];
+
+setInterval(() => {
+  const div = document.createElement("div");
+  div.classList.add("whisper");
+
+  div.innerText = whispers[Math.floor(Math.random() * whispers.length)];
+
+  document.body.appendChild(div);
+
+  setTimeout(() => div.remove(), 2000);
+
+}, 6000);
+/* 🔥 HAND REACTION SYSTEM (ADD HERE) */
+
+let lastMove = 0;
+
+document.addEventListener("mousemove", (e) => {
+  const now = Date.now();
+  const speed = now - lastMove;
+  lastMove = now;
+
+  const x = e.clientX;
+  const y = e.clientY;
+
+  const wave = document.createElement("div");
+  wave.style.position = "fixed";
+  wave.style.left = x + "px";
+  wave.style.top = y + "px";
+  wave.style.width = "20px";
+  wave.style.height = "20px";
+  wave.style.borderRadius = "50%";
+  wave.style.pointerEvents = "none";
+  wave.style.zIndex = "9999";
+
+  const intensity = Math.max(0.2, Math.min(1, 100 / speed));
+
+  wave.style.boxShadow = `
+    0 0 10px rgba(0,234,255,${intensity}),
+    0 0 30px rgba(168,85,247,${intensity})
+  `;
+
+  wave.style.animation = "waveExpand 0.6s ease-out";
+
+  document.body.appendChild(wave);
+
+  setTimeout(() => wave.remove(), 600);
+
+  if (speed < 20) {
+    document.body.classList.add("shake");
+    setTimeout(() => {
+      document.body.classList.remove("shake");
+    }, 200);
+  }
+});
+document.addEventListener("mousemove", (e) => {
+  const x = (e.clientX / window.innerWidth - 0.5) * 15;
+  const y = (e.clientY / window.innerHeight - 0.5) * 15;
+
+  const bg = document.querySelector(".background");
+
+  if (bg) {
+    bg.style.transform = `translate(${x}px, ${y}px) scale(1.05)`;
+  }
+});
+document.addEventListener("mousemove", (e) => {
+  const dot = document.createElement("div");
+
+  dot.style.position = "fixed";
+  dot.style.left = e.clientX + "px";
+  dot.style.top = e.clientY + "px";
+  dot.style.width = "6px";
+  dot.style.height = "6px";
+  dot.style.borderRadius = "50%";
+  dot.style.pointerEvents = "none";
+  dot.style.background = "#00eaff";
+  dot.style.boxShadow = "0 0 10px #00eaff, 0 0 20px #a855f7";
+
+  document.body.appendChild(dot);
+
+  setTimeout(() => dot.remove(), 300);
+});
+document.querySelector(".logo").addEventListener("click", spawnCard);
+
+/* 🔥 FIX: ENTER BUTTON CLICK */
+document.addEventListener("DOMContentLoaded", () => {
+  const btn = document.getElementById("enterBtn");
+
+  if (btn) {
+    btn.onclick = function () {
+      enterDomain();
+    };
+  }
+});
+/* 🔥 HADO 90 CLICK EFFECT */
+document.getElementById("hado90").addEventListener("click", () => {
+  // 🔊 sound (optional)
+  const voice = document.getElementById("voice");
+  if (voice) {
+    voice.currentTime = 0;
+    voice.play();
+  }
+
+  // ⚡ BLACK DOMAIN
+  const domain = document.createElement("div");
+  domain.classList.add("hado-domain");
+  document.body.appendChild(domain);
+
+  setTimeout(() => domain.remove(), 800);
+  // 🐉 IMAGE EFFECT
+  const img = document.createElement("img");
+  img.src = "aizenhado90.jpg"; // 👈 your image
+  
+  img.classList.add("hado-img");
+
+  document.body.appendChild(img);
+
+ const showTime = 5000; // 5 seconds
+
+setTimeout(() => {
+  img.style.transition = "0.5s";
+  img.style.opacity = "0";
+
+  setTimeout(() => {
+    img.remove();
+  }, 500);
+}, showTime);
+
+  // 💥 EXTRA SHAKE + POWER
+  document.body.classList.add("shake");
+  document.body.classList.add("reiatsu");
+
+  for (let i = 0; i < 50; i++) createParticle();
+
+  setTimeout(() => {
+    document.body.classList.remove("shake");
+    document.body.classList.remove("reiatsu");
+  }, 800);
+
+});
+document.getElementById("hado90").addEventListener("click", () => {
+
+  const audio = new Audio("sosuke-aizen-hado-90-kurohitsugi-sound-effect-made-with-Voicemod.mp3"); 
+  audio.play();
+});
+</script>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+const hoghyoku = document.getElementById("hoghyoku");
+hoghyoku.addEventListener("click", () => {
+
+  if (!eyeCreated) {
+
+    const eye = document.createElement("div");
+    eye.className = "eye";
+
+    const pupil = document.createElement("div");
+    pupil.className = "pupil";
+
+    eye.appendChild(pupil);
+    document.body.appendChild(eye);
+
+    let mouseX = 0;
+    let mouseY = 0;
+    let currentX = 0;
+    let currentY = 0;
+
+    document.addEventListener("mousemove", (e) => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+    });
+
+    function animate() {
+
+      const target = document.querySelector(".hand-target");
+      const rect = target.getBoundingClientRect();
+
+      // 👁️ eye position (HAND CENTER)
+      const eyeX = rect.left + rect.width / 2;
+      const eyeY = rect.top + rect.height / 2;
+
+      eye.style.position = "fixed";
+      eye.style.left = eyeX + "px";
+      eye.style.top = eyeY + "px";
+      eye.style.transform = "translate(-50%, -50%)";
+
+      // 👁️ pupil follow
+      const angle = Math.atan2(mouseY - eyeY, mouseX - eyeX);
+
+      const radius = 30;
+
+      const targetX = Math.cos(angle) * radius;
+      const targetY = Math.sin(angle) * radius;
+
+      currentX += (targetX - currentX) * 0.1;
+      currentY += (targetY - currentY) * 0.1;
+
+      pupil.style.transform = `translate(${currentX}px, ${currentY}px)`;
+
+      requestAnimationFrame(animate);
+    }
+
+    animate();
+
+    eye.addEventListener("click", () => {
+      document.body.classList.add("illusion");
+      document.body.classList.add("shake");
+
+      setTimeout(() => {
+        document.body.classList.remove("illusion");
+        document.body.classList.remove("shake");
+      }, 500);
+    });
+
+    eyeCreated = true;
+  }
+
+});
+  let eyeCreated = false;
+
+ 
+
+  });
+
+
+
+
+</script>
+</body>
+</html>
