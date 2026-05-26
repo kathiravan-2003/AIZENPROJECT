@@ -969,10 +969,10 @@ TOP ESPADA SPECIAL
 RESPONSIVE
 ========================= */
 
-@media(max-width:1000px){
+@media(max-width:600px){
 
   .espada-img{
-    height:250px;
+    height:320px;
   }
 
   #espadaTeam .card h2{
@@ -1504,7 +1504,8 @@ const espadaMembers = [
   number:4,
   aspect:"Nihilism",
   power:96,
-  image:"ulquiro.jfif"
+  image:"ulquiro.jfif",
+imgPosition:"center 20%"
 },
 
 {
@@ -1520,7 +1521,8 @@ const espadaMembers = [
   number:6,
   aspect:"Destruction",
   power:91,
-  image:"BLEACH.jfif"
+  image:"BLEACH.jfif",
+  imgPosition:"center 15%"
 },
 
 {
@@ -1552,7 +1554,8 @@ const espadaMembers = [
   number:10,
   aspect:"Rage",
   power:95,
-  image:"Yammy Llargo.jfif"
+  image:"Yammy Llargo.jfif",
+  imgPosition:"85% 0%"
 }
 
 ];
@@ -1570,7 +1573,7 @@ espadaMembers.forEach(member => {
     <img 
       src="${member.image}" 
       alt="${member.name}"
-      class="espada-img ${member.number === 10 ? 'yammy-img' : ''}"
+      class="espada-img" style="object-position:${member.imgPosition || 'center top'}"
     >
 
     <h2>
@@ -1599,6 +1602,5 @@ espadaMembers.forEach(member => {
 });
   </script>
 
-  
 </body>
 </html>
