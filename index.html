@@ -73,7 +73,7 @@
       display:flex;
       justify-content:center;
       align-items:center;
-      padding:50px;
+       padding: clamp(20px, 5%, 50px);
       position:relative;
     }
 
@@ -212,7 +212,7 @@
 
     .section-title{
       text-align:center;
-      font-size:50px;
+      font-size: clamp(28px, 5vw, 50px);
       margin-bottom:70px;
       font-family:'Orbitron',sans-serif;
       color:#d8b4ff;
@@ -221,7 +221,7 @@
 
     .cards{
       display:grid;
-      grid-template-columns:repeat(auto-fit,minmax(420px,1fr));
+      grid-template-columns: repeat(auto-fit, minmax(min(420px, 100%), 1fr));
       gap:35px;
     }
 
@@ -327,7 +327,7 @@
     @media(max-width:900px){
 
       .title{
-        font-size:60px;
+        font-size: clamp(40px, 8vw, 85px);
       }
 
       .hero-container{
@@ -391,7 +391,7 @@ ULTRA INPUT UI
 
   color:#ffffff;
 
-  font-size:18px;
+  font-size: max(16px, 18px);
 
   font-weight:500;
 
@@ -576,14 +576,13 @@ ULTRA PREMIUM SELECT UI
     135deg,
     rgba(255,255,255,0.08),
     rgba(140,60,255,0.12)
-    
-    
+
   );
 text-shadow:
   0 0 8px rgba(255,255,255,0.35),
   0 0 18px rgba(200,100,255,0.45);
   color:#f3d9ff;
-  font-size:18px;
+  font-size:max(16px,18px);
   font-weight:600;
 font-family:'Orbitron',sans-serif; 
   outline:none;
@@ -684,7 +683,7 @@ ULTRA TEXT EFFECT
 
   opacity:0.88;
 
-  font-size:17px;
+  font-size:max(16px,18px);
 
   font-weight:600;
 
@@ -894,7 +893,7 @@ ESPADA IMAGE
 
   width:100%;
 margin: -1px;
-  height:840px;
+  height: clamp(250px, 50vw, 840px);
 
   object-fit:cover;
 
