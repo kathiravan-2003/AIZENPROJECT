@@ -1388,7 +1388,35 @@ APPROVED MEMBERS SECTION
     Created with Supreme Aizen Energy ⚡
   </footer>
 
-  <script>
+  <script type="module">
+  // Import the functions you need from the SDKs you need
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-app.js";
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-analytics.js";
+  import {
+  getFirestore,
+  collection,
+  addDoc,
+  getDocs,
+  updateDoc,
+  doc
+} from "https://www.gstatic.com/firebasejs/12.14.0/firebase-firestore.js";
+  // TODO: Add SDKs for Firebase products that you want to use
+  // https://firebase.google.com/docs/web/setup#available-libraries
+
+  // Your web app's Firebase configuration
+  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+  const firebaseConfig = {
+    apiKey: "AIzaSyC3ePco4LOXTXy7wWCx6F50fMOr3G84Orc",
+    authDomain: "aizen-project-9bd28.firebaseapp.com",
+    projectId: "aizen-project-9bd28",
+    storageBucket: "aizen-project-9bd28.firebasestorage.app",
+    messagingSenderId: "1092692663341",
+    appId: "1:1092692663341:web:67e10d4f456f473901eca4",
+    measurementId: "G-RK557GRGR0"
+  };
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
 
     /* ============================================================
     ✅ EMAILJS CONFIG — இந்த 6 values மட்டும் உன்னோட details போடு
@@ -1478,7 +1506,22 @@ async function handleAdminDecision(applicant, decision){
         : `❌ ${applicant.name} rejection email sent.`,
       decision === "accept" ? "success" : "error"
     );
+const approvedUsers =
+JSON.parse(localStorage.getItem("approvedUsers") || "[]");
 
+approvedUsers.push({
+  email: applicant.email,
+  name: applicant.name,
+  role: applicant.role,
+  power: applicant.power,
+  reason: applicant.reason,
+  status: "accepted"
+});
+
+localStorage.setItem(
+  "approvedUsers",
+  JSON.stringify(approvedUsers)
+);
     // ✅ Accept ஆனா elite team-ல் add பண்ணு
     if(decision === "accept"){
       const teamCard = document.createElement("div");
@@ -1550,6 +1593,42 @@ const submitBtn = document.getElementById("submitBtn"); /* ✅ ADDED */
 if(localStorage.getItem("aizenTeam")){
   approvedTeam.innerHTML = localStorage.getItem("aizenTeam");
 }
+const approvedUsers =
+JSON.parse(localStorage.getItem("approvedUsers") || "[]");
+
+approvedUsers.forEach(user => {
+
+  const teamCard = document.createElement("div");
+
+  teamCard.classList.add("card");
+
+  teamCard.innerHTML = `
+    <h2>${user.name}</h2>
+
+    <p>
+      Officially accepted into Aizen's Elite Army.
+    </p>
+
+    <p>
+      Role: ${user.role}
+    </p>
+
+    <p>
+      Power Level: ${user.power}
+    </p>
+
+    <p>
+      Reason: ${user.reason}
+    </p>
+
+    <button class="reject-btn remove-member" style="display:none;">
+      Remove Member
+    </button>
+  `;
+
+  approvedTeam.appendChild(teamCard);
+
+});
 document.querySelectorAll(".remove-member").forEach(btn => btn.style.display = "none");
 approvedTeam.addEventListener("click", function(e){
 
@@ -1576,7 +1655,24 @@ form.addEventListener("submit", async function(e){
   const role = document.getElementById("role").value;
 
   const reason = document.getElementById("reason").value.trim();
+ await addDoc(
+    collection(db,"applications"),
+    {
+      name,
+      email,
+      power,
+      role,
+      reason,
+      status:"pending"
+    }
+  );
+ 
+  // CREATE APPLICATION CARD
 
+  const card = document.createElement("div");
+
+  
+});
   // CREATE APPLICATION CARD
  const existingNames = approvedTeam.querySelectorAll("h2");
 
@@ -1592,7 +1688,17 @@ form.addEventListener("submit", async function(e){
   /* ✅ SEND ADMIN EMAIL */
   submitBtn.innerHTML = '<span class="loading-spinner"></span>Sending Application...';
   submitBtn.disabled = true;
-
+await addDoc(
+  collection(db,"applications"),
+  {
+    name,
+    email,
+    power,
+    role,
+    reason,
+    status:"pending"
+  }
+);
   try {
     await sendAdminEmail({ name, email, power, role, reason });
     showToast("✅ Application sent! Aizen will review.", "success");
@@ -1966,6 +2072,7 @@ if (localStorage.getItem("aizenAdmin") === "true") {
   // localStorage-ல் இருந்து restore ஆன Remove buttons hide பண்ணு
   document.querySelectorAll(".remove-member").forEach(btn => btn.style.display = "none");
 }
+
   </script>
 
 </body>
