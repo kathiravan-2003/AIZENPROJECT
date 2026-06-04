@@ -1484,6 +1484,8 @@ async function handleAdminDecision(applicant, decision){
         <h2>${applicant.name}</h2>
         <p>Officially accepted into Aizen's Elite Army.</p>
         <p>Role: ${applicant.role}</p>
+        <p>Power Level: ${applicant.power || "Unknown"}</p>
+  <p>Reason: ${applicant.reason || "No reason available"}</p>
         <button class="reject-btn remove-member" style="display:none;">Remove Member</button>
       `;
       document.getElementById("approvedTeam").appendChild(teamCard);
@@ -1655,24 +1657,30 @@ applications.appendChild(card);
       teamCard.classList.add("card");
 
       teamCard.innerHTML = `
-    
-      <h2>${name}</h2>
 
-      <p>
-        Officially accepted into Aizen's Elite Army.
-      </p>
+<h2>${name}</h2>
 
-      <p>
-        Role: ${role}
-      </p>
+<p>
+  Officially accepted into Aizen's Elite Army.
+</p>
 
-      <p>
-        Power Level: ${power}
-      </p>
-     <button class="reject-btn remove-member">
-    Remove Member
-  </button>
-    `;
+<p>
+  Role: ${role}
+</p>
+
+<p>
+  Power Level: ${power}
+</p>
+
+<p>
+  Reason: ${reason}
+</p>
+
+<button class="reject-btn remove-member">
+  Remove Member
+</button>
+
+`;
 
       approvedTeam.appendChild(teamCard);
     
