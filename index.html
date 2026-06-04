@@ -1464,24 +1464,38 @@ APPROVED MEMBERS SECTION
         window.history.replaceState({}, document.title, window.location.pathname);
       }
     });
+async function handleAdminDecision(applicant, decision){
+  showSending(decision === "accept" ? "Sending Acceptance Email..." : "Sending Rejection Email...");
+  try {
+    await sendUserResultEmail(applicant, decision);
+    hideSending();
+    showToast(
+      decision === "accept"
+        ? `✅ ${applicant.name} accepted email sent!`
+        : `❌ ${applicant.name} rejection email sent.`,
+      decision === "accept" ? "success" : "error"
+    );
 
-    async function handleAdminDecision(applicant, decision){
-      showSending(decision === "accept" ? "Sending Acceptance Email..." : "Sending Rejection Email...");
-      try {
-        await sendUserResultEmail(applicant, decision);
-        hideSending();
-        showToast(
-          decision === "accept"
-            ? `✅ ${applicant.name} accepted email sent!`
-            : `❌ ${applicant.name} rejection email sent.`,
-          decision === "accept" ? "success" : "error"
-        );
-      } catch(err){
-        hideSending();
-        showToast("⚠️ Email sending failed. Check EmailJS config.", "error");
-        console.error(err);
-      }
+    // ✅ Accept ஆனா elite team-ல் add பண்ணு
+    if(decision === "accept"){
+      const teamCard = document.createElement("div");
+      teamCard.classList.add("card");
+      teamCard.innerHTML = `
+        <h2>${applicant.name}</h2>
+        <p>Officially accepted into Aizen's Elite Army.</p>
+        <p>Role: ${applicant.role}</p>
+        <button class="reject-btn remove-member" style="display:none;">Remove Member</button>
+      `;
+      document.getElementById("approvedTeam").appendChild(teamCard);
+      localStorage.setItem("aizenTeam", document.getElementById("approvedTeam").innerHTML);
     }
+
+  } catch(err){
+    hideSending();
+    showToast("⚠️ Email sending failed. Check EmailJS config.", "error");
+    console.error(err);
+  }
+}
 
     function showMessage(){
       alert("You are already under Kyoka Suigetsu.");
