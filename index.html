@@ -7,6 +7,9 @@
 
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&family=Poppins:wght@300;400;500;700&display=swap" rel="stylesheet">
 
+  <!-- ✅ EmailJS SDK — ADDED -->
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
   <style>
     *{
       margin:0;
@@ -1006,11 +1009,111 @@ RESPONSIVE
 }
 }
 
-</style>
+/* ✅ EMAIL UI STYLES — ADDED */
+#emailToast{
+  position:fixed;
+  bottom:30px;
+  right:30px;
+  padding:18px 28px;
+  border-radius:18px;
+  font-family:'Orbitron',sans-serif;
+  font-size:15px;
+  font-weight:600;
+  z-index:9999;
+  opacity:0;
+  transform:translateY(20px);
+  transition:0.4s;
+  pointer-events:none;
+  max-width:320px;
+}
+#emailToast.show{
+  opacity:1;
+  transform:translateY(0);
+}
+#emailToast.success{
+  background:linear-gradient(135deg,#1a0035,#2e0055);
+  border:1px solid #a855ff;
+  box-shadow:0 0 30px #8c3cff88;
+  color:#d8b4ff;
+}
+#emailToast.error{
+  background:linear-gradient(135deg,#1a0010,#35001a);
+  border:1px solid #ff4d6d;
+  box-shadow:0 0 30px #ff2e6388;
+  color:#ffb3c6;
+}
+.loading-spinner{
+  display:inline-block;
+  width:16px;
+  height:16px;
+  border:2px solid #ffffff44;
+  border-top:2px solid #fff;
+  border-radius:50%;
+  animation:spin 0.7s linear infinite;
+  vertical-align:middle;
+  margin-right:8px;
+}
+@keyframes spin{
+  to{transform:rotate(360deg);}
+}
+.email-badge{
+  display:inline-block;
+  padding:5px 14px;
+  border-radius:20px;
+  background:rgba(140,60,255,0.18);
+  border:1px solid #8c3cff66;
+  color:#d8b4ff;
+  font-size:13px;
+  font-family:'Orbitron',sans-serif;
+  margin-bottom:8px;
+}
+.sending-overlay{
+  position:fixed;
+  inset:0;
+  background:rgba(5,1,13,0.85);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  z-index:99999;
+  gap:20px;
+  opacity:0;
+  pointer-events:none;
+  transition:0.3s;
+}
+.sending-overlay.active{
+  opacity:1;
+  pointer-events:all;
+}
+.sending-overlay p{
+  font-family:'Orbitron',sans-serif;
+  color:#d8b4ff;
+  font-size:18px;
+  text-shadow:0 0 20px #8c3cff;
+}
+.big-spinner{
+  width:60px;
+  height:60px;
+  border:4px solid #8c3cff44;
+  border-top:4px solid #c84dff;
+  border-radius:50%;
+  animation:spin 0.8s linear infinite;
+}
+
+  </style>
 
 </head>
 
 <body>
+
+  <!-- ✅ SENDING OVERLAY — ADDED -->
+  <div class="sending-overlay" id="sendingOverlay">
+    <div class="big-spinner"></div>
+    <p id="sendingText">Sending Email...</p>
+  </div>
+
+  <!-- ✅ TOAST — ADDED -->
+  <div id="emailToast"></div>
 
   <div class="bg-particles"></div>
 
@@ -1038,7 +1141,7 @@ RESPONSIVE
           The supreme mastermind of Bleach.  
           Aizen is not just powerful — he controls perception itself.
           His intelligence, strategy, illusion powers, and terrifying spiritual pressure
-          make him one of anime’s most legendary villains.
+          make him one of anime's most legendary villains.
         </p>
 
         <div class="btn-group">
@@ -1150,12 +1253,6 @@ RESPONSIVE
 
 <!-- Recruitment section starts -->
 <section class="section" id="recruitment">
-<!-- =========================
-AIZEN RECRUITMENT SECTION
-ADD THIS BELOW POWERS SECTION
-========================= -->
-
-
 
   <h1 class="section-title">Join Aizen's Army</h1>
 
@@ -1164,6 +1261,9 @@ ADD THIS BELOW POWERS SECTION
     <form id="joinForm">
 
       <input type="text" id="name" placeholder="Enter Your Name" required>
+
+      <!-- ✅ EMAIL FIELD — ADDED -->
+      <input type="email" id="userEmail" placeholder="Enter Your Email Address" required>
 
       <div class="power-wrapper">
 
@@ -1221,7 +1321,7 @@ ADD THIS BELOW POWERS SECTION
 
       <textarea id="reason" placeholder="Why should Aizen choose you?" required></textarea>
 
-      <button type="submit">
+      <button type="submit" id="submitBtn">
         Request Approval
       </button>
  
@@ -1257,7 +1357,7 @@ APPROVED MEMBERS SECTION
   <section class="quote">
 
     <h1>
-      “Admiration is the emotion farthest from understanding.”
+      "Admiration is the emotion farthest from understanding."
     </h1>
 
   </section>
@@ -1267,6 +1367,97 @@ APPROVED MEMBERS SECTION
   </footer>
 
   <script>
+
+    /* ============================================================
+    ✅ EMAILJS CONFIG — இந்த 6 values மட்டும் உன்னோட details போடு
+    ============================================================ */
+    const EMAILJS_PUBLIC_KEY     = "8wTvo7Ey3fK7oC8kH";
+    const EMAILJS_SERVICE_ID     = "service_4f299f4";
+    const EMAILJS_ADMIN_TEMPLATE = "template_67tylca";
+    const EMAILJS_USER_TEMPLATE  = "template_8mawgqm";
+    const ADMIN_EMAIL            = "rkathiravan038@gmail.com";
+    const WEBSITE_URL            = "https://aizenproject.vercel.app/";
+
+    emailjs.init(EMAILJS_PUBLIC_KEY);
+
+    /* ✅ TOAST HELPER */
+    function showToast(msg, type="success"){
+      const t = document.getElementById("emailToast");
+      t.textContent = msg;
+      t.className = "show " + type;
+      setTimeout(() => { t.className = ""; }, 4000);
+    }
+
+    function showSending(text="Sending Email..."){
+      document.getElementById("sendingText").textContent = text;
+      document.getElementById("sendingOverlay").classList.add("active");
+    }
+
+    function hideSending(){
+      document.getElementById("sendingOverlay").classList.remove("active");
+    }
+
+    /* ✅ ADMIN EMAIL — உனக்கு வரும் (Accept/Reject link உடன்) */
+    async function sendAdminEmail(applicant){
+      const acceptLink = `${WEBSITE_URL}?action=accept&email=${encodeURIComponent(applicant.email)}&name=${encodeURIComponent(applicant.name)}&role=${encodeURIComponent(applicant.role)}`;
+      const rejectLink = `${WEBSITE_URL}?action=reject&email=${encodeURIComponent(applicant.email)}&name=${encodeURIComponent(applicant.name)}`;
+      return emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_ADMIN_TEMPLATE, {
+        to_email:         ADMIN_EMAIL,
+        applicant_name:   applicant.name,
+        applicant_email:  applicant.email,
+        applicant_role:   applicant.role,
+        applicant_power:  applicant.power,
+        applicant_reason: applicant.reason,
+        accept_link:      acceptLink,
+        reject_link:      rejectLink,
+      });
+    }
+
+    /* ✅ USER EMAIL — applicant-க்கு போகும் */
+    async function sendUserResultEmail(applicant, decision){
+      const isAccepted = decision === "accept";
+      return emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_USER_TEMPLATE, {
+        to_email:         applicant.email,
+        user_name:        applicant.name,
+        decision:         isAccepted ? "✅ ACCEPTED" : "❌ REJECTED",
+        role:             applicant.role,
+        website_link:     WEBSITE_URL,
+        decision_message: isAccepted
+          ? `Lord Aizen has accepted you into his Elite Army as ${applicant.role}. You are now part of the most powerful force in Soul Society. Return to the website to begin your mission.`
+          : `Lord Aizen has reviewed your application and found you... unworthy. Your request to join has been rejected. Perhaps you can try again when you are stronger.`,
+      });
+    }
+
+    /* ✅ URL PARAM HANDLER — Email link click பண்ணா auto handle */
+    window.addEventListener("DOMContentLoaded", function(){
+      const params = new URLSearchParams(window.location.search);
+      const action = params.get("action");
+      const email  = params.get("email");
+      const name   = params.get("name");
+      const role   = params.get("role") || "";
+      if(action && email && name){
+        handleAdminDecision({ email, name, role }, action);
+        window.history.replaceState({}, document.title, window.location.pathname);
+      }
+    });
+
+    async function handleAdminDecision(applicant, decision){
+      showSending(decision === "accept" ? "Sending Acceptance Email..." : "Sending Rejection Email...");
+      try {
+        await sendUserResultEmail(applicant, decision);
+        hideSending();
+        showToast(
+          decision === "accept"
+            ? `✅ ${applicant.name} accepted email sent!`
+            : `❌ ${applicant.name} rejection email sent.`,
+          decision === "accept" ? "success" : "error"
+        );
+      } catch(err){
+        hideSending();
+        showToast("⚠️ Email sending failed. Check EmailJS config.", "error");
+        console.error(err);
+      }
+    }
 
     function showMessage(){
       alert("You are already under Kyoka Suigetsu.");
@@ -1304,11 +1495,15 @@ APPROVED MEMBERS SECTION
 
       bg.appendChild(particle);
     }
+
 const form = document.getElementById("joinForm");
 
 const applications = document.getElementById("applications");
 
 const approvedTeam = document.getElementById("approvedTeam");
+
+const submitBtn = document.getElementById("submitBtn"); /* ✅ ADDED */
+
 if(localStorage.getItem("aizenTeam")){
   approvedTeam.innerHTML = localStorage.getItem("aizenTeam");
 }
@@ -1324,11 +1519,14 @@ approvedTeam.addEventListener("click", function(e){
 });
 
 
-form.addEventListener("submit", function(e){
+/* ✅ FORM SUBMIT — async ஆக மாத்தினோம், email logic add பண்ணினோம் */
+form.addEventListener("submit", async function(e){
 
   e.preventDefault();
 
   const name = document.getElementById("name").value.trim();
+
+  const email = document.getElementById("userEmail").value.trim(); /* ✅ ADDED */
 
   const power = document.getElementById("power").value;
 
@@ -1342,11 +1540,27 @@ form.addEventListener("submit", function(e){
   for(let member of existingNames){
 
     if(member.innerText === name){
-      alert("Member already exists");
+      showToast("⚠️ Member already exists!", "error"); /* ✅ alert → toast */
       return;
     }
 
   }
+
+  /* ✅ SEND ADMIN EMAIL */
+  submitBtn.innerHTML = '<span class="loading-spinner"></span>Sending Application...';
+  submitBtn.disabled = true;
+
+  try {
+    await sendAdminEmail({ name, email, power, role, reason });
+    showToast("✅ Application sent! Aizen will review.", "success");
+  } catch(err){
+    showToast("⚠️ Could not send email. Check EmailJS config.", "error");
+    console.error(err);
+  }
+
+  submitBtn.innerHTML = "Request Approval";
+  submitBtn.disabled = false;
+
   const card = document.createElement("div");
 
   card.classList.add("application-card");
@@ -1354,6 +1568,8 @@ form.addEventListener("submit", function(e){
   card.innerHTML = `
   
     <h2>${name}</h2>
+
+    <span class="email-badge">📧 ${email}</span>
 
     <p><strong>Power Level:</strong> ${power}</p>
 
@@ -1384,13 +1600,23 @@ applications.appendChild(card);
 
   // APPROVE FUNCTION
 
-  approveBtn.addEventListener("click", function(){
+  approveBtn.addEventListener("click", async function(){ /* ✅ async added */
 
-    const teamCard = document.createElement("div");
+    approveBtn.innerHTML = '<span class="loading-spinner"></span>Sending...';
+    approveBtn.disabled = true;
 
-    teamCard.classList.add("card");
+    showSending("Sending Acceptance Email to " + name + "...");
 
-    teamCard.innerHTML = `
+    try {
+      await sendUserResultEmail({ name, email, role }, "accept");
+      hideSending();
+      showToast("✅ Acceptance email sent to " + email, "success");
+
+      const teamCard = document.createElement("div");
+
+      teamCard.classList.add("card");
+
+      teamCard.innerHTML = `
     
       <h2>${name}</h2>
 
@@ -1410,24 +1636,41 @@ applications.appendChild(card);
   </button>
     `;
 
-
-  
-approvedTeam.appendChild(teamCard);
+      approvedTeam.appendChild(teamCard);
     
-    localStorage.setItem(
-"aizenTeam",
-approvedTeam.innerHTML
-);
-card.remove();
+      localStorage.setItem(
+        "aizenTeam",
+        approvedTeam.innerHTML
+      );
+
+      card.remove();
+
+    } catch(err){
+      hideSending();
+      showToast("⚠️ Email failed! Check EmailJS config.", "error");
+      approveBtn.innerHTML = "Approve Member";
+      approveBtn.disabled = false;
+      console.error(err);
+    }
   
   });
     
 
   // REJECT FUNCTION
 
-  rejectBtn.addEventListener("click", function(){
+  rejectBtn.addEventListener("click", async function(){ /* ✅ async added */
 
-    card.innerHTML = `
+    rejectBtn.innerHTML = '<span class="loading-spinner"></span>Sending...';
+    rejectBtn.disabled = true;
+
+    showSending("Sending Rejection Email to " + name + "...");
+
+    try {
+      await sendUserResultEmail({ name, email, role }, "reject");
+      hideSending();
+      showToast("❌ Rejection email sent to " + email, "error");
+
+      card.innerHTML = `
     
       <h2>${name}</h2>
 
@@ -1437,11 +1680,17 @@ card.remove();
     
     `;
 
-    setTimeout(() => {
+      setTimeout(() => {
+        card.remove();
+      }, 2000);
 
-      card.remove();
-
-    }, 2000);
+    } catch(err){
+      hideSending();
+      showToast("⚠️ Email failed! Check EmailJS config.", "error");
+      rejectBtn.innerHTML = "Reject";
+      rejectBtn.disabled = false;
+      console.error(err);
+    }
 
   });
 
