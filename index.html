@@ -1423,13 +1423,7 @@ APPROVED MEMBERS SECTION
 
     /* ✅ ADMIN EMAIL — உனக்கு வரும் (Accept/Reject link உடன்) */
     async function sendAdminEmail(applicant){
-     const acceptLink =
-`${WEBSITE_URL}?action=accept
-&email=${encodeURIComponent(applicant.email)}
-&name=${encodeURIComponent(applicant.name)}
-&role=${encodeURIComponent(applicant.role)}
-&power=${encodeURIComponent(applicant.power)}
-&reason=${encodeURIComponent(applicant.reason)}`;
+     const acceptLink = `${WEBSITE_URL}?action=accept&email=${encodeURIComponent(applicant.email)}&name=${encodeURIComponent(applicant.name)}&role=${encodeURIComponent(applicant.role)}&power=${encodeURIComponent(applicant.power)}&reason=${encodeURIComponent(applicant.reason)}`;
       const rejectLink = `${WEBSITE_URL}?action=reject&email=${encodeURIComponent(applicant.email)}&name=${encodeURIComponent(applicant.name)}`;
       return emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_ADMIN_TEMPLATE, {
         to_email:         ADMIN_EMAIL,
