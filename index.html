@@ -1099,34 +1099,12 @@ RESPONSIVE
   border-radius:50%;
   animation:spin 0.8s linear infinite;
 }
-.admin-btn {
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  z-index: 99999;
-  padding: 10px 16px;
-  border: none;
-  border-radius: 12px;
-  background: #8c3cff;
-  color: white;
-  cursor: pointer;
-  box-shadow: 0 0 20px #8c3cff;
-  font-family: 'Orbitron', sans-serif;
-  font-size: 13px;
-}
 
-#logoutBtn {
-  right: 130px;
-  background: #ff2e63;
-  box-shadow: 0 0 20px #ff2e63;
-}
   </style>
 
 </head>
 
 <body>
-<button id="adminBtn" class="admin-btn">🔐 Admin</button>
-<button id="logoutBtn" class="admin-btn" style="display:none;">🚪 Logout</button>
 
   <!-- ✅ SENDING OVERLAY — ADDED -->
   <div class="sending-overlay" id="sendingOverlay">
@@ -1388,36 +1366,8 @@ APPROVED MEMBERS SECTION
     Created with Supreme Aizen Energy ⚡
   </footer>
 
-  <script type="module">
-  // Import the functions you need from the SDKs you need
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-app.js";
-  import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-analytics.js";
-  import {
-  getFirestore,
-  collection,
-  addDoc,
-  getDocs,
-  updateDoc,
-  doc
-} from "https://www.gstatic.com/firebasejs/12.14.0/firebase-firestore.js";
-  // TODO: Add SDKs for Firebase products that you want to use
-  // https://firebase.google.com/docs/web/setup#available-libraries
-
-  // Your web app's Firebase configuration
-  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-  const firebaseConfig = {
-apikey:"",
-    authDomain: "aizen-project-9bd28.firebaseapp.com",
-    projectId: "aizen-project-9bd28",
-    storageBucket: "aizen-project-9bd28.firebasestorage.app",
-    messagingSenderId: "1092692663341",
-    appId: "1:1092692663341:web:67e10d4f456f473901eca4",
-    measurementId: "G-RK557GRGR0"
-  };
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
-
-
+  <script>
+ const IS_ADMIN = true; // 👈 admin மட்டும் true
     /* ============================================================
     ✅ EMAILJS CONFIG — இந்த 6 values மட்டும் உன்னோட details போடு
     ============================================================ */
@@ -1428,9 +1378,7 @@ const db = getFirestore(app);
     const ADMIN_EMAIL            = "rkathiravan038@gmail.com";
     const WEBSITE_URL            = "https://aizenproject.vercel.app/";
 
-    emailjs.init({
-  publicKey: EMAILJS_PUBLIC_KEY
-});
+    emailjs.init(EMAILJS_PUBLIC_KEY);
 
     /* ✅ TOAST HELPER */
     function showToast(msg, type="success"){
@@ -1452,7 +1400,8 @@ const db = getFirestore(app);
     /* ✅ ADMIN EMAIL — உனக்கு வரும் (Accept/Reject link உடன்) */
     async function sendAdminEmail(applicant){
      const acceptLink = `${WEBSITE_URL}?action=accept&email=${encodeURIComponent(applicant.email)}&name=${encodeURIComponent(applicant.name)}&role=${encodeURIComponent(applicant.role)}&power=${encodeURIComponent(applicant.power)}&reason=${encodeURIComponent(applicant.reason)}`;
-      const rejectLink = `${WEBSITE_URL}?action=reject&email=${encodeURIComponent(applicant.email)}&name=${encodeURIComponent(applicant.name)}`;
+
+const rejectLink = `${WEBSITE_URL}?action=reject&email=${encodeURIComponent(applicant.email)}&name=${encodeURIComponent(applicant.name)}&role=${encodeURIComponent(applicant.role)}&power=${encodeURIComponent(applicant.power)}&reason=${encodeURIComponent(applicant.reason)}`;
       return emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_ADMIN_TEMPLATE, {
         to_email:         ADMIN_EMAIL,
         applicant_name:   applicant.name,
@@ -1482,63 +1431,73 @@ const db = getFirestore(app);
 
     /* ✅ URL PARAM HANDLER — Email link click பண்ணா auto handle */
     window.addEventListener("DOMContentLoaded", function(){
-      const params = new URLSearchParams(window.location.search);
-      const action = params.get("action");
-      const email  = params.get("email");
-      const name   = params.get("name");
-      const role   = params.get("role") || "";
-      const power  = params.get("power") || "";
-  const reason = params.get("reason") || "";
+  const params = new URLSearchParams(window.location.search);
 
-      if(action && email && name){
-        handleAdminDecision({ email, name, role,power,reason }, action);
-        window.history.replaceState({}, document.title, window.location.pathname);
-      }
-    });
-async function handleAdminDecision(applicant, decision){
-  showSending(decision === "accept" ? "Sending Acceptance Email..." : "Sending Rejection Email...");
+  const action = params.get("action");
+  const email  = params.get("email");
+  const name   = params.get("name");
+  const role   = params.get("role");
+  const power  = params.get("power");
+  const reason = params.get("reason");
+
+  if(action && email && name){
+    handleAdminDecision({ email, name, role, power, reason }, action);
+    window.history.replaceState({}, document.title, window.location.pathname);
+  }
+});
+
+    async function handleAdminDecision(applicant, decision){
+
+  showSending(
+    decision === "accept"
+      ? "Sending Acceptance Email..."
+      : "Sending Rejection Email..."
+  );
+
   try {
+
     await sendUserResultEmail(applicant, decision);
+
     hideSending();
+
     showToast(
       decision === "accept"
         ? `✅ ${applicant.name} accepted email sent!`
         : `❌ ${applicant.name} rejection email sent.`,
       decision === "accept" ? "success" : "error"
     );
-const approvedUsers =
-JSON.parse(localStorage.getItem("approvedUsers") || "[]");
 
-approvedUsers.push({
-  email: applicant.email,
-  name: applicant.name,
-  role: applicant.role,
-  power: applicant.power,
-  reason: applicant.reason,
-  status: "accepted"
-});
-
-localStorage.setItem(
-  "approvedUsers",
-  JSON.stringify(approvedUsers)
-);
-    // ✅ Accept ஆனா elite team-ல் add பண்ணு
+    // ⭐ ONLY ACCEPT CASE - ADD TO TEAM
     if(decision === "accept"){
+
       const teamCard = document.createElement("div");
       teamCard.classList.add("card");
+
       teamCard.innerHTML = `
         <h2>${applicant.name}</h2>
-        <p>Officially accepted into Aizen's Elite Army.</p>
-        <p>Role: ${applicant.role}</p>
-        <p>Power Level: ${applicant.power || "Unknown"}</p>
-  <p>Reason: ${applicant.reason || "No reason available"}</p>
-        <button class="reject-btn remove-member" style="display:none;">Remove Member</button>
+
+        <p><strong>Email:</strong> ${applicant.email}</p>
+        <p><strong>Role:</strong> ${applicant.role}</p>
+        <p><strong>Power Level:</strong> ${applicant.power}</p>
+        <p><strong>Reason:</strong> ${applicant.reason}</p>
+
+ ${IS_ADMIN ? `
+  <button class="reject-btn remove-member">
+    Remove Member (Admin)
+  </button>
+` : ``}
       `;
-      document.getElementById("approvedTeam").appendChild(teamCard);
-      localStorage.setItem("aizenTeam", document.getElementById("approvedTeam").innerHTML);
+
+      approvedTeam.appendChild(teamCard);
+
+      localStorage.setItem(
+        "aizenTeam",
+        approvedTeam.innerHTML
+      );
     }
 
   } catch(err){
+
     hideSending();
     showToast("⚠️ Email sending failed. Check EmailJS config.", "error");
     console.error(err);
@@ -1593,50 +1552,19 @@ const submitBtn = document.getElementById("submitBtn"); /* ✅ ADDED */
 if(localStorage.getItem("aizenTeam")){
   approvedTeam.innerHTML = localStorage.getItem("aizenTeam");
 }
-const approvedUsers =
-JSON.parse(localStorage.getItem("approvedUsers") || "[]");
 
-approvedUsers.forEach(user => {
-
-  const teamCard = document.createElement("div");
-
-  teamCard.classList.add("card");
-
-  teamCard.innerHTML = `
-    <h2>${user.name}</h2>
-
-    <p>
-      Officially accepted into Aizen's Elite Army.
-    </p>
-
-    <p>
-      Role: ${user.role}
-    </p>
-
-    <p>
-      Power Level: ${user.power}
-    </p>
-
-    <p>
-      Reason: ${user.reason}
-    </p>
-
-    <button class="reject-btn remove-member" style="display:none;">
-      Remove Member
-    </button>
-  `;
-
-  approvedTeam.appendChild(teamCard);
-
-});
-document.querySelectorAll(".remove-member").forEach(btn => btn.style.display = "none");
 approvedTeam.addEventListener("click", function(e){
 
-     if(e.target.classList.contains("remove-member")){
+  if(!IS_ADMIN) {
+    showToast("⚠️ Only admin can remove members!", "error");
+    return;
+  }
+
+  if(e.target.classList.contains("remove-member")){
     e.target.closest(".card").remove();
     localStorage.setItem("aizenTeam", approvedTeam.innerHTML);
+    showToast("🗑️ Member removed by admin", "success");
   }
-    
 
 });
 
@@ -1655,24 +1583,7 @@ form.addEventListener("submit", async function(e){
   const role = document.getElementById("role").value;
 
   const reason = document.getElementById("reason").value.trim();
- await addDoc(
-    collection(db,"applications"),
-    {
-      name,
-      email,
-      power,
-      role,
-      reason,
-      status:"pending"
-    }
-  );
- 
-  // CREATE APPLICATION CARD
 
-  const card = document.createElement("div");
-
-  
-});
   // CREATE APPLICATION CARD
  const existingNames = approvedTeam.querySelectorAll("h2");
 
@@ -1688,17 +1599,7 @@ form.addEventListener("submit", async function(e){
   /* ✅ SEND ADMIN EMAIL */
   submitBtn.innerHTML = '<span class="loading-spinner"></span>Sending Application...';
   submitBtn.disabled = true;
-await addDoc(
-  collection(db,"applications"),
-  {
-    name,
-    email,
-    power,
-    role,
-    reason,
-    status:"pending"
-  }
-);
+
   try {
     await sendAdminEmail({ name, email, power, role, reason });
     showToast("✅ Application sent! Aizen will review.", "success");
@@ -1757,7 +1658,7 @@ applications.appendChild(card);
     showSending("Sending Acceptance Email to " + name + "...");
 
     try {
-      await sendUserResultEmail({ name, email, role }, "accept");
+      await sendUserResultEmail({ name, email, role, power, reason }, "accept");
       hideSending();
       showToast("✅ Acceptance email sent to " + email, "success");
 
@@ -1766,30 +1667,24 @@ applications.appendChild(card);
       teamCard.classList.add("card");
 
       teamCard.innerHTML = `
+    
+      <h2>${name}</h2>
 
-<h2>${name}</h2>
+      <p>
+        Officially accepted into Aizen's Elite Army.
+      </p>
 
-<p>
-  Officially accepted into Aizen's Elite Army.
-</p>
+      <p>
+        Role: ${role}
+      </p>
 
-<p>
-  Role: ${role}
-</p>
-
-<p>
-  Power Level: ${power}
-</p>
-
-<p>
-  Reason: ${reason}
-</p>
-
-<button class="reject-btn remove-member">
-  Remove Member
-</button>
-
-`;
+      <p>
+        Power Level: ${power}
+      </p>
+     <button class="reject-btn remove-member">
+    Remove Member
+  </button>
+    `;
 
       approvedTeam.appendChild(teamCard);
     
@@ -1821,7 +1716,7 @@ applications.appendChild(card);
     showSending("Sending Rejection Email to " + name + "...");
 
     try {
-      await sendUserResultEmail({ name, email, role }, "reject");
+      await sendUserResultEmail({ name, email, role,power,reason }, "reject");
       hideSending();
       showToast("❌ Rejection email sent to " + email, "error");
 
@@ -2023,56 +1918,6 @@ espadaMembers.forEach(member => {
   espadaTeam.appendChild(card);
 
 });
-let isAdmin = false;
-const ADMIN_PASSWORD = "14/06/2003";
-const adminBtn = document.getElementById("adminBtn");
-const logoutBtn = document.getElementById("logoutBtn");
-
-// Review section default hide
-document.getElementById("applications").closest("section").style.display = "none";
-
-function activateAdminUI() {
-  adminBtn.style.display = "none";
-  logoutBtn.style.display = "inline-block";
-  document.getElementById("applications").closest("section").style.display = "block";
-  document.querySelectorAll(".remove-member").forEach(btn => btn.style.display = "inline-block");
-}
-
-function deactivateAdminUI() {
-  adminBtn.style.display = "inline-block";
-  logoutBtn.style.display = "none";
-  document.getElementById("applications").closest("section").style.display = "none";
-  document.querySelectorAll(".remove-member").forEach(btn => btn.style.display = "none");
-}
-
-adminBtn.addEventListener("click", () => {
-  const pass = prompt("Enter Admin Password:");
-  if (pass === ADMIN_PASSWORD) {
-    isAdmin = true;
-    localStorage.setItem("aizenAdmin", "true");
-    activateAdminUI();
-    showToast("🔓 Admin Mode Activated", "success");
-  } else {
-    showToast("❌ Wrong Password", "error");
-  }
-});
-
-logoutBtn.addEventListener("click", () => {
-  isAdmin = false;
-  localStorage.removeItem("aizenAdmin");
-  deactivateAdminUI();
-  showToast("🚪 Logged Out", "success");
-});
-
-// Page load-ல் admin state restore
-if (localStorage.getItem("aizenAdmin") === "true") {
-  isAdmin = true;
-  activateAdminUI();
-} else {
-  // localStorage-ல் இருந்து restore ஆன Remove buttons hide பண்ணு
-  document.querySelectorAll(".remove-member").forEach(btn => btn.style.display = "none");
-}
-
   </script>
 
 </body>
